@@ -131,7 +131,7 @@ def login_required(f):
 @app.context_processor
 def inject_nav():
     pages_list = [{'key': k, 'label': v['label'], 'file': v['file']} for k, v in PAGES.items()]
-    return dict(pages_list=pages_list, cms_types=CMS_TYPES)
+    return dict(pages_list=pages_list, cms_types=CMS_TYPES, use_github=USE_GITHUB)
 
 # ── Page-content helpers ──────────────────────────────────────────────────────
 
