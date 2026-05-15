@@ -337,25 +337,41 @@ h1, h2, h3, h4, p { margin: 0; }
 /* =====================================================================
    TESTIMONIALS
    ===================================================================== */
-.tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
 .t-card {
   background: #fff; border: 1px solid var(--border); border-radius: 14px;
-  padding: 22px; display: flex; flex-direction: column; gap: 14px;
+  padding: 24px; display: flex; flex-direction: column; gap: 16px;
+  position: relative;
+}
+.t-card::before {
+  content: '\201C';
+  position: absolute; top: 16px; right: 20px;
+  font-size: 52px; line-height: 1; font-family: Georgia, serif;
+  color: var(--gtxo-blue-100);
+  pointer-events: none;
 }
 .t-head { display: flex; align-items: center; gap: 12px; }
 .t-avatar {
-  width: 44px; height: 44px; border-radius: 999px;
+  width: 44px; height: 44px; border-radius: 999px; flex-shrink: 0;
   background: linear-gradient(135deg, var(--gtxo-blue-500), var(--gtxo-cyber-violet));
   color: #fff; display: grid; place-items: center;
-  font-family: var(--font-display); font-weight: 700;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px;
 }
 .t-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--fg); }
-.t-role { font-size: 12px; color: var(--fg-secondary); }
-.t-quote { font-size: 15px; line-height: 1.55; color: var(--fg); margin: 0; }
-.t-quote b { font-weight: 600; }
+.t-role { font-size: 12px; color: var(--fg-secondary); margin-top: 2px; }
+.t-quote {
+  font-size: 14px; line-height: 1.65; color: var(--fg-secondary);
+  margin: 0; flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.t-quote b { font-weight: 600; color: var(--fg); }
 .t-source {
   display: flex; align-items: center; gap: 6px;
   font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted);
+  margin-top: auto; padding-top: 12px; border-top: 1px solid var(--gtxo-ink-100);
 }
 .li-mark {
   width: 16px; height: 16px; background: #0a66c2; color: #fff;

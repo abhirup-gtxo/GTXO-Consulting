@@ -555,10 +555,14 @@ def _initials(name):
 
 def _t_card_html(item):
     from html import escape
+    import re
     name   = escape(item.get('name', ''))
     desg   = escape(item.get('designation', ''))
     co     = escape(item.get('company', ''))
-    quote  = escape(item.get('testimonial', ''))
+    # Collapse newlines/extra whitespace into a single clean string
+    raw    = item.get('testimonial', '').replace('\r\n', ' ').replace('\n', ' ')
+    raw    = re.sub(r'\s{2,}', ' ', raw).strip()
+    quote  = escape(raw)
     tid    = item.get('id', '')
     initls = _initials(item.get('name', ''))
     return (
