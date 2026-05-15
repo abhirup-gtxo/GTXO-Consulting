@@ -391,7 +391,7 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 .logo-cell:nth-child(4n)   { border-right: none; }
 .logo-cell img {
-  height: 44px; width: auto; max-width: 130px;
+  height: 72px; width: auto; max-width: 160px;
   object-fit: contain; display: block;
   filter: grayscale(100%) opacity(55%);
   transition: filter 280ms var(--ease-out);
