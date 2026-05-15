@@ -191,13 +191,12 @@
           body: new FormData(form),
           headers: { 'Accept': 'application/json' }
         });
-        const body = await res.json().catch(() => ({}));
         if (res.ok) {
           window.location.href = '/thank-you';
         } else {
           btn.disabled = false;
           btn.innerHTML = 'Send message &rarr;';
-          alert('Status ' + res.status + ': ' + JSON.stringify(body));
+          alert('Something went wrong. Please try again.');
         }
       } catch {
         btn.disabled = false;
