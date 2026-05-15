@@ -926,7 +926,7 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 
 /* Article body */
-.article-hero-title { font-size: clamp(1.44rem, 2.63vw + 0.53rem, 2.63rem) !important; }
+.article-hero-title { font-size: clamp(1.87rem, 3.42vw + 0.69rem, 3.42rem) !important; }
 .article-body h1, .article-body h2, .article-body h3 { margin-top: 1.1em; margin-bottom: 0.3em; font-family: var(--font-display); }
 .article-body p { margin: 0 0 0.5em 0; line-height: 1.45; }
 .article-body ul, .article-body ol { padding-left: 1.5em; margin-bottom: 0.5em; }
