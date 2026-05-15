@@ -400,7 +400,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell img[data-logo="wonderlend-hubs"] { height: 101px; }
 .logo-cell img[data-logo="ambee"]           { height: 101px; }
 .logo-cell img[data-logo="certinal"]        { height: 101px; }
-.logo-cell img[data-logo="sketchnote"]      { height: 238px; }
+.logo-cell img[data-logo="sketchnote"]      { height: 200px; }
 
 /* Continuous-scroll logo marquee (home, "trusted by" strip) */
 .logo-marquee {
