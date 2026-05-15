@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Client Logos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / Client Logos</div>
+    <h1 class="page-title">Client Logos</h1>
+    <p class="page-sub">{{ items|length }} logo{{ 's' if items|length != 1 else '' }} · active ones show on the Clients page</p>
+  </div>
+</div>
+
+<!-- Upload form -->
+<div class="editor-section" style="margin-bottom:32px;">
+  <div class="editor-section-title">Upload new logo</div>
+  <form method="post" action="/admin/logos/upload" enctype="multipart/form-data" class="logo-upload-form">
+    <div class="form-grid-2">
+      <div class="field">
+        <label>Logo file <span class="req">*</span></label>
+        <input type="file" name="logo_file" accept=".png,.jpg,.jpeg,.svg,.webp" required>
+        <span class="field-hint">Any size — all logos will display at a uniform height on the site.</span>
+      </div>
+      <div class="field">
+        <label>Company name <span class="req">*</span></label>
+        <input type="text" name="alt" required placeholder="e.g. Shopflo">
+        <span class="field-hint">Used as alt text and the file name slug.</span>
+      </div>
+    </div>
+    <div class="form-actions" style="margin-top:16px;">
+      <button type="submit" class="btn-primary">Upload &amp; publish</button>
+    </div>
+  </form>
+</div>
+
+<!-- Logo grid -->
+{% if items %}
+<div class="logo-admin-grid">
+  {% for item in items %}
+  <div class="logo-admin-card {{ 'inactive' if not item.get('active') }}">
+    <div class="logo-admin-preview">
+      <img src="{{ item.preview_url }}" alt="{{ item.alt }}" onerror="this.style.opacity='.2'">
+    </div>
+    <div class="logo-admin-info">
+      <span class="logo-admin-name">{{ item.alt }}</span>
+      <span class="logo-admin-file">{{ item.filename }}</span>
+    </div>
+    <div class="logo-admin-actions">
+      <form action="/admin/logos/{{ item.id }}/toggle" method="post" style="display:inline">
+        <button type="submit" class="status-pill {{ 'published' if item.get('active') else 'draft' }}" title="Toggle visibility">
+          {{ 'Visible' if item.get('active') else 'Hidden' }}
+        </button>
+      </form>
+      <form action="/admin/logos/{{ item.id }}/delete" method="post" style="display:inline"
+            onsubmit="return confirm('Delete {{ item.alt }} logo?')">
+        <button type="submit" class="action-btn danger">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+  </div>
+  <p>No logos yet. Upload your first one above.</p>
+</div>
+{% endif %}
+{% endblock %}

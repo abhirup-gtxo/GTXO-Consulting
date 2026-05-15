@@ -381,39 +381,22 @@ h1, h2, h3, h4, p { margin: 0; }
    LOGO WALL
    ===================================================================== */
 .logo-wall {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
 }
 .logo-cell {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 22px;
-  display: grid; place-items: center;
-  height: 140px;
-  color: var(--gtxo-ink-600);
-  font-family: var(--font-display); font-size: 15px; font-weight: 700;
-  letter-spacing: -.01em;
-  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out);
+  display: flex; align-items: center; justify-content: center;
+  padding: 32px 28px;
+  border-right: 1px solid var(--gtxo-ink-100);
+  border-bottom: 1px solid var(--gtxo-ink-100);
 }
-.logo-cell { padding: 18px; }
-.logo-cell:hover { border-color: var(--gtxo-ink-300); color: var(--gtxo-ink-900); }
+.logo-cell:nth-child(4n)   { border-right: none; }
 .logo-cell img {
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
+  height: 44px; width: auto; max-width: 130px;
+  object-fit: contain; display: block;
+  filter: grayscale(100%) opacity(55%);
+  transition: filter 280ms var(--ease-out);
 }
-/* Same per-logo height treatment as the marquee */
-.logo-cell img[data-logo="shopflo"]    { height: 28px; }
-.logo-cell img[data-logo="xobin"]      { height: 38px; }
-.logo-cell img[data-logo="certinal"]   { height: 52px; }
-.logo-cell img[data-logo="lythouse"]   { height: 56px; }
-.logo-cell img[data-logo="ambee"]      { height: 64px; }
-.logo-cell img[data-logo="wonderlend"] { height: 94px; }
-.logo-cell img[data-logo="gush"]       { height: 80px; }
-.logo-cell img[data-logo="sketchnote"] { height: 114px; }
-.logo-cell.dark { background: var(--gtxo-ink-800); border-color: rgba(255,255,255,.08); color: rgba(255,255,255,.85); }
-.logo-cell.dark:hover { border-color: rgba(255,255,255,.25); color: #fff; }
+.logo-cell:hover img { filter: grayscale(0%) opacity(100%); }
 
 /* Continuous-scroll logo marquee (home, "trusted by" strip) */
 .logo-marquee {

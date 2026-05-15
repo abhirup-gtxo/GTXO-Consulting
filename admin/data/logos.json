@@ -1,0 +1,10 @@
+[
+  {"id": "logo-0001", "filename": "wonderlend-hubs.png", "alt": "Wonderlend Hubs", "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0002", "filename": "gush.png",             "alt": "Gush",            "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0003", "filename": "xobin.png",            "alt": "Xobin",           "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0004", "filename": "shopflo.png",          "alt": "Shopflo",         "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0005", "filename": "lythouse.png",         "alt": "Lythouse",        "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0006", "filename": "ambee.png",            "alt": "Ambee",           "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0007", "filename": "certinal.png",         "alt": "Certinal",        "active": true, "created_at": "2026-01-01T00:00:00"},
+  {"id": "logo-0008", "filename": "sketchnote.png",       "alt": "Sketchnote",      "active": true, "created_at": "2026-01-01T00:00:00"}
+]

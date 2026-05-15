@@ -588,6 +588,149 @@ def _t_card_html(item):
         f'\n    </div>'
     )
 
+# ── Logo helpers ─────────────────────────────────────────────────────────────
+
+LOGOS_PATH      = 'admin/data/logos.json'
+LOGOS_ASSET_DIR = 'assets/clients'
+
+def load_logos():
+    if USE_GITHUB:
+        content, _ = _gh_get(LOGOS_PATH)
+        return json.loads(content) if content else []
+    p = DATA_DIR / 'logos.json'
+    return json.loads(p.read_text()) if p.exists() else []
+
+def save_logos(data):
+    content = json.dumps(data, indent=2, ensure_ascii=False)
+    if USE_GITHUB:
+        _, sha = _gh_get(LOGOS_PATH)
+        _gh_put(LOGOS_PATH, content, 'Logos: update manifest', sha)
+    else:
+        (DATA_DIR / 'logos.json').write_text(content)
+
+def _write_binary_file(repo_path, file_bytes, commit_msg='Upload'):
+    if USE_GITHUB:
+        _, sha = _gh_get(repo_path)
+        url = f'https://api.github.com/repos/{GITHUB_REPO}/contents/{repo_path}'
+        payload = {
+            'message': commit_msg,
+            'content': base64.b64encode(file_bytes).decode('ascii'),
+            'branch':  GITHUB_BRANCH,
+        }
+        if sha:
+            payload['sha'] = sha
+        r = requests.put(url, headers=_gh_headers(), json=payload)
+        return r.status_code in (200, 201)
+    full = SITE_ROOT / repo_path
+    full.parent.mkdir(parents=True, exist_ok=True)
+    full.write_bytes(file_bytes)
+    return True
+
+def _delete_file(repo_path, commit_msg='Delete'):
+    if USE_GITHUB:
+        _, sha = _gh_get(repo_path)
+        if sha:
+            url = f'https://api.github.com/repos/{GITHUB_REPO}/contents/{repo_path}'
+            requests.delete(url, headers=_gh_headers(),
+                            json={'message': commit_msg, 'sha': sha, 'branch': GITHUB_BRANCH})
+    else:
+        full = SITE_ROOT / repo_path
+        if full.exists():
+            full.unlink()
+
+def _rebuild_logo_wall():
+    from html import escape as _esc
+    logos = [l for l in load_logos() if l.get('active')]
+    cells = ''.join(
+        f'\n<div class="logo-cell"><img src="assets/clients/{l["filename"]}" alt="{_esc(l.get("alt",""))}"></div>'
+        for l in logos
+    ) + '\n'
+    html = _read_file('clients.html')
+    if not html:
+        return
+    soup = BeautifulSoup(html, 'lxml')
+    wall = soup.select_one('.logo-wall')
+    if not wall:
+        return
+    wall.clear()
+    frag = BeautifulSoup(cells, 'html.parser')
+    for child in list(frag.children):
+        wall.append(child)
+    _write_file('clients.html', str(soup), 'Logos: rebuild logo wall')
+
+def _logo_preview_url(filename):
+    if USE_GITHUB:
+        return f'https://raw.githubusercontent.com/{GITHUB_REPO}/main/assets/clients/{filename}'
+    return f'/assets/clients/{filename}'
+
+# ── Logo routes ───────────────────────────────────────────────────────────────
+
+@app.route('/admin/logos')
+@login_required
+def logos_list():
+    items = load_logos()
+    for item in items:
+        item['preview_url'] = _logo_preview_url(item['filename'])
+    return render_template('logos.html', items=items)
+
+@app.route('/admin/logos/upload', methods=['POST'])
+@login_required
+def logo_upload():
+    f = request.files.get('logo_file')
+    alt = request.form.get('alt', '').strip()
+    if not f or not alt:
+        flash('File and company name are required', 'error')
+        return redirect(url_for('logos_list'))
+
+    ext = Path(f.filename).suffix.lower() or '.png'
+    slug = _slugify(alt)
+    filename = f'{slug}{ext}'
+    repo_path = f'{LOGOS_ASSET_DIR}/{filename}'
+
+    ok = _write_binary_file(repo_path, f.read(), f'Logos: upload {filename}')
+    if not ok:
+        flash('Upload failed', 'error')
+        return redirect(url_for('logos_list'))
+
+    logos = load_logos()
+    # Replace existing entry with same filename if present
+    logos = [l for l in logos if l['filename'] != filename]
+    logos.append({
+        'id':         str(uuid.uuid4()),
+        'filename':   filename,
+        'alt':        alt,
+        'active':     True,
+        'created_at': datetime.utcnow().isoformat(),
+    })
+    save_logos(logos)
+    _rebuild_logo_wall()
+    flash(f'{alt} uploaded and published', 'success')
+    return redirect(url_for('logos_list'))
+
+@app.route('/admin/logos/<item_id>/delete', methods=['POST'])
+@login_required
+def logo_delete(item_id):
+    logos = load_logos()
+    item = next((l for l in logos if l['id'] == item_id), None)
+    if item:
+        _delete_file(f'{LOGOS_ASSET_DIR}/{item["filename"]}', f'Logos: delete {item["filename"]}')
+        logos = [l for l in logos if l['id'] != item_id]
+        save_logos(logos)
+        _rebuild_logo_wall()
+        flash(f'{item["alt"]} deleted', 'success')
+    return redirect(url_for('logos_list'))
+
+@app.route('/admin/logos/<item_id>/toggle', methods=['POST'])
+@login_required
+def logo_toggle(item_id):
+    logos = load_logos()
+    for l in logos:
+        if l['id'] == item_id:
+            l['active'] = not l.get('active', True)
+    save_logos(logos)
+    _rebuild_logo_wall()
+    return redirect(url_for('logos_list'))
+
 TESTIMONIAL_PAGES = {
     'index.html':                         'first3',
     'clients.html':                       'all',

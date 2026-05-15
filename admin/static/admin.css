@@ -702,3 +702,30 @@ body {
   max-width: 280px; color: var(--fg-secondary);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+
+/* ── Logo admin ───────────────────────────────────────────── */
+.logo-admin-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+}
+.logo-admin-card {
+  border: 1.5px solid var(--border); border-radius: 10px;
+  overflow: hidden; display: flex; flex-direction: column;
+  background: #fff;
+}
+.logo-admin-card.inactive { opacity: .5; }
+.logo-admin-preview {
+  background: var(--bg-muted); padding: 24px;
+  display: flex; align-items: center; justify-content: center; height: 100px;
+}
+.logo-admin-preview img { max-height: 52px; max-width: 100%; object-fit: contain; }
+.logo-admin-info { padding: 10px 12px; border-top: 1px solid var(--border); flex: 1; }
+.logo-admin-name { display: block; font-weight: 600; font-size: 13px; color: var(--fg); }
+.logo-admin-file { display: block; font-size: 11px; color: var(--fg-muted); margin-top: 2px; word-break: break-all; }
+.logo-admin-actions {
+  padding: 8px 12px; border-top: 1px solid var(--border);
+  display: flex; gap: 6px; align-items: center;
+}
+.logo-upload-form input[type="file"] {
+  padding: 8px; border: 1.5px dashed var(--border); border-radius: 8px;
+  background: var(--bg-muted); cursor: pointer; width: 100%;
+}
