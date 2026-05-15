@@ -441,7 +441,7 @@ ARTICLE_TEMPLATE = """\
 def _generate_article_pages(ct):
     items = load_cms(ct)
     meta  = CMS_TYPES[ct]
-    published_ids = {i['id'] for i in items if i.get('published')}
+    published_slugs = {i.get('slug') or i['id'] for i in items if i.get('published')}
 
     # Delete stale articles from GitHub / local
     if USE_GITHUB:
@@ -450,7 +450,7 @@ def _generate_article_pages(ct):
         if r.status_code == 200:
             for f in r.json():
                 stem = Path(f['name']).stem
-                if stem not in published_ids:
+                if stem not in published_slugs:
                     requests.delete(
                         f['url'], headers=_gh_headers(),
                         json={'message': f'CMS: remove {ct}/{f["name"]}',
@@ -460,12 +460,13 @@ def _generate_article_pages(ct):
         out_dir = SITE_ROOT / 'resources' / ct
         out_dir.mkdir(exist_ok=True)
         for p in out_dir.glob('*.html'):
-            if p.stem not in published_ids:
+            if p.stem not in published_slugs:
                 p.unlink(missing_ok=True)
 
     for item in items:
         if not item.get('published'):
             continue
+        slug = item.get('slug') or item['id']
         tag_pills = ''.join(
             f'<span class="eyebrow pill">{t}</span>'
             for t in item.get('tags', [])
@@ -482,7 +483,7 @@ def _generate_article_pages(ct):
             kind=item.get('kind', ''),
             tag_pills=tag_pills,
         )
-        repo_path = f'resources/{ct}/{item["id"]}.html'
+        repo_path = f'resources/{ct}/{slug}.html'
         _write_file(repo_path, html, f'CMS: publish {ct} article')
 
 def _rebuild_resource_page(ct):
@@ -509,7 +510,7 @@ def _rebuild_resource_page(ct):
                 f'<span>{t}</span><span class="dot"></span>'
                 for t in item.get('tags', [])
             ).rstrip('<span class="dot"></span>')
-            item_url = f'{ct}/{item["id"]}.html'
+            item_url = f'{ct}/{item.get("slug") or item["id"]}.html'
             cards_html += f'''
     <a class="res-card" href="{item_url}" data-cms-id="{item["id"]}">
       <div class="cover {item.get("cover_grad","grad-a")}">
