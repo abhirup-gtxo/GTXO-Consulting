@@ -927,10 +927,10 @@ h1, h2, h3, h4, p { margin: 0; }
 
 /* Article body */
 .article-hero-title { font-size: clamp(1.87rem, 3.42vw + 0.69rem, 3.42rem) !important; }
-.article-body h1, .article-body h2, .article-body h3 { margin-top: 1.1em; margin-bottom: 0.3em; font-family: var(--font-display); }
-.article-body p { margin: 0 0 0.75em 0; line-height: 1.45; }
-.article-body p:has(> br:only-child) { display: none; }
-.article-body ul, .article-body ol { padding-left: 1.5em; margin-bottom: 0.5em; }
+.article-body h1, .article-body h2, .article-body h3 { margin-top: 1.1em !important; margin-bottom: 0.3em !important; font-family: var(--font-display); }
+.article-body p { margin: 0 0 0.75em 0 !important; line-height: 1.45 !important; }
+.article-body p:has(> br:only-child) { display: none !important; }
+.article-body ul, .article-body ol { padding-left: 1.5em; margin-bottom: 0.5em !important; }
 .article-body blockquote { border-left: 3px solid var(--gtxo-blue-500); padding-left: 20px; color: var(--fg-secondary); font-style: italic; }
 .article-body a { color: var(--gtxo-blue-500); text-decoration: underline; }
 
