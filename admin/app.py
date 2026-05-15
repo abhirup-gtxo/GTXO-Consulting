@@ -390,9 +390,9 @@ ARTICLE_TEMPLATE = """\
     <section class="hero">
       <div class="container inner" style="max-width:760px;">
         <div class="crumbs">
-          <a href="../../index.html">Home</a> <span>/</span>
-          <a href="../../resources/index.html">Resources</a> <span>/</span>
-          <a href="../../resources/{ct}.html">{ct_label}</a> <span>/</span>
+          <a href="/">Home</a> <span>/</span>
+          <a href="/resources">Resources</a> <span>/</span>
+          <a href="/resources/{ct}">{ct_label}</a> <span>/</span>
           <span>{title}</span>
         </div>
         <p class="eyebrow"><span class="dash"></span> {cover_label}</p>
@@ -410,7 +410,7 @@ ARTICLE_TEMPLATE = """\
           {content}
         </div>
         <div style="margin-top:64px;padding-top:40px;border-top:1px solid var(--border);">
-          <a href="../../resources/{ct}.html" class="btn btn-ghost btn-sm">← Back to {ct_label}</a>
+          <a href="/resources/{ct}" class="btn btn-ghost btn-sm">← Back to {ct_label}</a>
         </div>
       </div>
     </section>

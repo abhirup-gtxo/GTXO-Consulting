@@ -27,12 +27,12 @@
   ];
 
   const HUBS = {
-    home:       { url: "index.html" },
-    solutions:  { url: "solutions/index.html" },
-    industries: { url: "industries/index.html" },
-    resources:  { url: "resources/index.html" },
-    about:      { url: "about.html" },
-    clients:    { url: "clients.html" },
+    home:       { url: "/" },
+    solutions:  { url: "/solutions" },
+    industries: { url: "/industries" },
+    resources:  { url: "/resources" },
+    about:      { url: "/about" },
+    clients:    { url: "/clients" },
   };
 
   // ------- color emphasis (the tweak) -------
@@ -66,7 +66,7 @@
     const current = document.body.dataset.page || "";
     const base = withBase("");
     const links = NAV.map(item => {
-      const url = base + HUBS[item.key].url;
+      const url = HUBS[item.key].url;
       const isCurrent = current === item.key;
       return `<a href="${url}"${isCurrent ? ' data-current="true"' : ""}>${item.label}</a>`;
     }).join("");
@@ -75,16 +75,16 @@
       <div class="announce">
         <span class="dot"></span>
         <span>Free audit · We'll find 3 revenue leaks in your funnel in 30 minutes</span>
-        <a href="${base}contact.html">Book now →</a>
+        <a href="/contact">Book now →</a>
       </div>
       <nav class="nav" aria-label="Primary">
         <div class="container nav-inner">
-          <a class="brand" href="${base}index.html">
+          <a class="brand" href="/">
             <img src="${LOGO}" alt="Grow10x" />
           </a>
           <div class="nav-links">${links}</div>
           <div class="nav-actions">
-            <a class="btn btn-cube btn-sm" href="${base}contact.html">Book a consultation <span class="arr">→</span></a>
+            <a class="btn btn-cube btn-sm" href="/contact">Book a consultation <span class="arr">→</span></a>
           </div>
         </div>
       </nav>
@@ -109,37 +109,37 @@
             <div>
               <h4>Solutions</h4>
               <ul>
-                <li><a href="${base}solutions/paid-marketing.html">Paid Marketing</a></li>
-                <li><a href="${base}solutions/ai-led-seo.html">AI-Led SEO</a></li>
-                <li><a href="${base}solutions/content-strategy.html">Content Strategy</a></li>
-                <li><a href="${base}solutions/gtm-strategy.html">GTM Strategy</a></li>
-                <li><a href="${base}solutions/demand-gen.html">Demand Gen</a></li>
-                <li><a href="${base}solutions/ai-solutions.html">AI Solutions</a></li>
+                <li><a href="/solutions/paid-marketing">Paid Marketing</a></li>
+                <li><a href="/solutions/ai-led-seo">AI-Led SEO</a></li>
+                <li><a href="/solutions/content-strategy">Content Strategy</a></li>
+                <li><a href="/solutions/gtm-strategy">GTM Strategy</a></li>
+                <li><a href="/solutions/demand-gen">Demand Gen</a></li>
+                <li><a href="/solutions/ai-solutions">AI Solutions</a></li>
               </ul>
             </div>
             <div>
               <h4>Industries</h4>
               <ul>
-                <li><a href="${base}industries/b2b-tech.html">B2B Tech</a></li>
-                <li><a href="${base}industries/b2b-consulting.html">B2B Consulting</a></li>
-                <li><a href="${base}industries/d2c-brands.html">D2C Brands</a></li>
-                <li><a href="${base}industries/b2c-brands.html">B2C Brands</a></li>
+                <li><a href="/industries/b2b-tech">B2B Tech</a></li>
+                <li><a href="/industries/b2b-consulting">B2B Consulting</a></li>
+                <li><a href="/industries/d2c-brands">D2C Brands</a></li>
+                <li><a href="/industries/b2c-brands">B2C Brands</a></li>
               </ul>
             </div>
             <div>
               <h4>Resources</h4>
               <ul>
-                <li><a href="${base}resources/blogs.html">Blogs</a></li>
-                <li><a href="${base}resources/case-studies.html">Case Studies</a></li>
-                <li><a href="${base}resources/guides.html">Guides</a></li>
+                <li><a href="/resources/blogs">Blogs</a></li>
+                <li><a href="/resources/case-studies">Case Studies</a></li>
+                <li><a href="/resources/guides">Guides</a></li>
               </ul>
             </div>
             <div>
               <h4>Company</h4>
               <ul>
-                <li><a href="${base}about.html">About Us</a></li>
-                <li><a href="${base}clients.html">Clients</a></li>
-                <li><a href="${base}contact.html">Contact</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/clients">Clients</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
           </div>
