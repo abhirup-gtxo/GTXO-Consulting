@@ -386,6 +386,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell {
   display: flex; align-items: center; justify-content: center;
   padding: 11px 14px;
+  min-height: 120px;
 }
 .logo-cell img {
   height: 72px; width: auto; max-width: 160px;
