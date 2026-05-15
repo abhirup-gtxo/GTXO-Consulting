@@ -1,92 +1,62 @@
 [
   {
     "id": "t-0001-0000-0000-0000-000000000001",
-    "name": "Sarah Maliki",
-    "designation": "VP Marketing",
-    "company": "Lattice (Series C)",
-    "testimonial": "They didn’t pitch us a strategy. They were our strategy team for nine months — in standups, owning targets, on the hook for the number.",
+    "name": "Abhilash Mishra",
+    "designation": "Director of Product and Growth",
+    "company": "Ambee (Series A)",
+    "testimonial": "Everybody wants an agency that gets results. Fewer want one that tells them they’re wrong. \r\nAbhirup did both for Ambee. He flagged our US marketing plan before we could execute it wrong. Clearly. With reasons. Then helped us build something that actually worked.\r\nHe’s not a vendor. He’s the guy who warns you, explains why, and then delivers anyway.",
     "active": true,
     "created_at": "2026-01-01T00:00:00",
-    "updated_at": "2026-01-01T00:00:00"
+    "updated_at": "2026-05-15T11:51:17.856395"
   },
   {
     "id": "t-0002-0000-0000-0000-000000000002",
-    "name": "Daniel Reyes",
-    "designation": "Founder",
-    "company": "Vellum (D2C beverages)",
-    "testimonial": "Our CAC dropped 41% in the first quarter. They rebuilt the creative engine and the landing page in week one. We’ve never moved that fast.",
+    "name": "Francis Xavier",
+    "designation": "Marketing Head",
+    "company": "GlobeMoving",
+    "testimonial": "Abhirup bring a very go-to-person attitude at work, plays very well between your challenges and how we could turn them around. \r\nHas sound knowledge and often comes about with interesting ways to build into your seo. Would recommend working with him.",
     "active": true,
     "created_at": "2026-03-01T00:00:00",
-    "updated_at": "2026-03-01T00:00:00"
+    "updated_at": "2026-05-15T11:35:57.349067"
   },
   {
     "id": "t-0003-0000-0000-0000-000000000003",
-    "name": "Priya Anand",
-    "designation": "CMO",
-    "company": "Stitchpad (B2B SaaS)",
-    "testimonial": "We were getting cited by ChatGPT inside six weeks. That changed how the board talks about marketing — it’s a revenue line now, not a cost line.",
+    "name": "Murugappan Meiyappan",
+    "designation": "Marketing Lead",
+    "company": "Shopflo (Acquired by PineLabs)",
+    "testimonial": "GTXO Consulting were true partners in helping Shopflo crack and scale a new advertising channel. \r\n\r\nWhen we hit an early roadblock, Abhirup worked closely with our team, went beyond scope, and helped solve deeper marketing challenges that were blocking performance. \r\n\r\nI’d highly recommend him and his team for innovative marketing experiments. He won’t act like a vendor. He’ll challenge you, disagree when needed, and stay committed to your goals.",
     "active": true,
     "created_at": "2026-02-01T00:00:00",
-    "updated_at": "2026-02-01T00:00:00"
+    "updated_at": "2026-05-15T11:50:54.882937"
   },
   {
     "id": "t-0004-0000-0000-0000-000000000004",
-    "name": "Jay Lin",
-    "designation": "Head of Growth",
-    "company": "Stack",
-    "testimonial": "The only paid partner I’ve worked with who came to the table with a P&L view. 3.6× pipeline ROI by quarter two — receipts attached.",
+    "name": "Tushar Guneja",
+    "designation": "Founder",
+    "company": "AstroUrjaa (D2C Brand)",
+    "testimonial": "Finding a marketing professional who can run campaigns is easy. But finding someone who truly understands your business model, expectations, and product positioning is rare. You need someone who not only executes but also guides you on defining the right target audience and refining your product approach.\r\n\r\nI’ve worked with Abhirup, and he is exactly that kind of marketer, someone who aligns marketing strategies with business growth and ensures every effort contributes to long-term success.",
     "active": true,
     "created_at": "2026-04-01T00:00:00",
-    "updated_at": "2026-04-01T00:00:00"
-  },
-  {
-    "id": "t-0005-0000-0000-0000-000000000005",
-    "name": "Aisha Thomas",
-    "designation": "CMO",
-    "company": "Pacer",
-    "testimonial": "They didn’t ask for more budget. They made the existing budget work. CPA halved before we ever discussed scaling spend.",
-    "active": true,
-    "created_at": "2026-02-01T00:00:00",
-    "updated_at": "2026-02-01T00:00:00"
-  },
-  {
-    "id": "t-0006-0000-0000-0000-000000000006",
-    "name": "Kenji Watanabe",
-    "designation": "Founder & CEO",
-    "company": "Forge",
-    "testimonial": "Felt like hiring a CMO and a creative team in week one. Lean enough to operate, senior enough to challenge us. The standard.",
-    "active": true,
-    "created_at": "2026-05-01T00:00:00",
-    "updated_at": "2026-05-01T00:00:00"
-  },
-  {
-    "id": "t-0007-0000-0000-0000-000000000007",
-    "name": "Elena Bianchi",
-    "designation": "VP Growth",
-    "company": "Mercury",
-    "testimonial": "Programmatic SEO that wasn’t slop. They cared about every page like a human had written it. 147% organic traffic by month five.",
-    "active": true,
-    "created_at": "2025-12-01T00:00:00",
-    "updated_at": "2025-12-01T00:00:00"
+    "updated_at": "2026-05-15T11:39:21.646423"
   },
   {
     "id": "t-0008-0000-0000-0000-000000000008",
-    "name": "Marcus Adeyemi",
-    "designation": "Founder",
-    "company": "Northwind",
-    "testimonial": "They built us an internal lead-scoring tool in three days. Our previous agency had been ‘scoping’ it for six months.",
+    "name": "Aravind Sanal",
+    "designation": "Co-Founder",
+    "company": "Savittr (B2B Marketing Consulting Co)",
+    "testimonial": "Abhirup as an 'all-rounder' growth marketer. He has been a reliable partner in delivering many successful projects at Savittr. \r\nHis knowledge and expertise in SEO, paid acquisition and account based marketing has consistently driven strong results for us. I'm extremely happy to have Abhi as an embedded consultant at Savittr.",
     "active": true,
     "created_at": "2026-04-01T00:00:00",
-    "updated_at": "2026-04-01T00:00:00"
+    "updated_at": "2026-05-15T11:40:54.305131"
   },
   {
     "id": "t-0009-0000-0000-0000-000000000009",
-    "name": "Rachel Chen",
-    "designation": "CMO",
-    "company": "Hyperline",
-    "testimonial": "What I love: they tell you when something isn’t working. No retainer protection. They’d rather lose the line item than waste your money.",
+    "name": "Swapnil Sinha",
+    "designation": "GTM Director",
+    "company": "Gushwork AI (B2B Tech)",
+    "testimonial": "Abhirup proved to be an exceptional partner for our GTM initiatives. His expertise in executing our paid marketing experiments accelerated our testing cycles significantly. \r\nThrough his partnership, we were able to generate a substantial sales-qualified pipeline in a short time frame",
     "active": true,
     "created_at": "2026-03-01T00:00:00",
-    "updated_at": "2026-03-01T00:00:00"
+    "updated_at": "2026-05-15T11:42:40.901099"
   }
 ]
