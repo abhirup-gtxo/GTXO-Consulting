@@ -2,12 +2,13 @@ import os
 import sys
 import json
 import uuid
+import base64
 import shutil
-import mimetypes
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
 
+import requests
 from flask import (Flask, render_template, request, redirect, url_for,
                    session, jsonify, send_from_directory, abort, flash)
 from bs4 import BeautifulSoup, NavigableString
@@ -16,30 +17,108 @@ sys.path.insert(0, str(Path(__file__).parent))
 from content_maps import PAGES
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.secret_key = 'gtxo-admin-2026-secret'
-
-@app.context_processor
-def inject_nav():
-    pages_list = [{'key': k, 'label': v['label'], 'file': v['file']} for k, v in PAGES.items()]
-    return dict(pages_list=pages_list, cms_types=CMS_TYPES)
+app.secret_key = os.environ.get('SECRET_KEY', 'gtxo-admin-2026-secret')
 
 SITE_ROOT  = Path(__file__).parent.parent
 ADMIN_ROOT = Path(__file__).parent
 DATA_DIR   = ADMIN_ROOT / 'data'
 DATA_DIR.mkdir(exist_ok=True)
 
-ADMIN_USER = 'admin'
-ADMIN_PASS = 'gtxo2026'
+ADMIN_USER = os.environ.get('ADMIN_USER', 'admin')
+ADMIN_PASS = os.environ.get('ADMIN_PASSWORD', 'gtxo2026')
+
+# GitHub API — set these env vars on Railway
+GITHUB_TOKEN  = os.environ.get('GITHUB_TOKEN', '')
+GITHUB_REPO   = os.environ.get('GITHUB_REPO', 'abhirup-gtxo/GTXO-Consulting')
+GITHUB_BRANCH = os.environ.get('GITHUB_BRANCH', 'main')
+USE_GITHUB    = bool(GITHUB_TOKEN)
 
 CMS_TYPES = {
     'blogs':        {'label': 'Blogs',        'cover_label': 'BLOG',        'kind_default': 'Essay'},
     'case-studies': {'label': 'Case Studies', 'cover_label': 'CASE STUDY',  'kind_default': 'B2B SaaS'},
     'guides':       {'label': 'Guides',       'cover_label': 'GUIDE',       'kind_default': 'Guide'},
 }
-
 GRAD_OPTIONS = ['grad-a', 'grad-b', 'grad-c', 'grad-d']
 
-# ── Auth ─────────────────────────────────────────────────────────────────────
+# ── GitHub API helpers ────────────────────────────────────────────────────────
+
+def _gh_headers():
+    return {
+        'Authorization': f'token {GITHUB_TOKEN}',
+        'Accept': 'application/vnd.github.v3+json',
+    }
+
+def _gh_get(repo_path):
+    """Return (content_str, sha) or (None, None)."""
+    url = f'https://api.github.com/repos/{GITHUB_REPO}/contents/{repo_path}'
+    r = requests.get(url, headers=_gh_headers(), params={'ref': GITHUB_BRANCH})
+    if r.status_code == 200:
+        data = r.json()
+        content = base64.b64decode(data['content']).decode('utf-8')
+        return content, data['sha']
+    return None, None
+
+def _gh_put(repo_path, content_str, commit_msg, sha=None):
+    """Create or update a file in the GitHub repo."""
+    url = f'https://api.github.com/repos/{GITHUB_REPO}/contents/{repo_path}'
+    payload = {
+        'message': commit_msg,
+        'content': base64.b64encode(content_str.encode('utf-8')).decode('ascii'),
+        'branch':  GITHUB_BRANCH,
+    }
+    if sha:
+        payload['sha'] = sha
+    r = requests.put(url, headers=_gh_headers(), json=payload)
+    return r.status_code in (200, 201)
+
+# ── Generic read/write (local or GitHub) ─────────────────────────────────────
+
+def _read_file(repo_path):
+    """Read a file — from GitHub if token set, otherwise local."""
+    if USE_GITHUB:
+        content, _ = _gh_get(repo_path)
+        return content
+    full = SITE_ROOT / repo_path
+    if not full.exists():
+        return None
+    return full.read_text(encoding='utf-8')
+
+def _write_file(repo_path, content_str, commit_msg='Update'):
+    """Write a file — to GitHub if token set, otherwise local."""
+    if USE_GITHUB:
+        _, sha = _gh_get(repo_path)
+        return _gh_put(repo_path, content_str, commit_msg, sha)
+    full = SITE_ROOT / repo_path
+    full.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(full, full.with_suffix('.bak')) if full.exists() else None
+    full.write_text(content_str, encoding='utf-8')
+    return True
+
+# ── CMS helpers ───────────────────────────────────────────────────────────────
+
+def _cms_repo_path(ct):
+    return f'admin/data/{ct}.json'
+
+def load_cms(ct):
+    if USE_GITHUB:
+        content, _ = _gh_get(_cms_repo_path(ct))
+        return json.loads(content) if content else []
+    p = DATA_DIR / f'{ct}.json'
+    if not p.exists():
+        return []
+    with open(p) as f:
+        return json.load(f)
+
+def save_cms(ct, data):
+    content = json.dumps(data, indent=2, default=str)
+    if USE_GITHUB:
+        _, sha = _gh_get(_cms_repo_path(ct))
+        _gh_put(_cms_repo_path(ct), content, f'CMS: update {ct}', sha)
+    else:
+        with open(DATA_DIR / f'{ct}.json', 'w') as f:
+            f.write(content)
+
+# ── Auth ──────────────────────────────────────────────────────────────────────
 
 def login_required(f):
     @wraps(f)
@@ -49,31 +128,19 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated
 
-# ── CMS helpers ──────────────────────────────────────────────────────────────
+@app.context_processor
+def inject_nav():
+    pages_list = [{'key': k, 'label': v['label'], 'file': v['file']} for k, v in PAGES.items()]
+    return dict(pages_list=pages_list, cms_types=CMS_TYPES)
 
-def cms_path(ct):
-    return DATA_DIR / f'{ct}.json'
-
-def load_cms(ct):
-    p = cms_path(ct)
-    if not p.exists():
-        return []
-    with open(p) as f:
-        return json.load(f)
-
-def save_cms(ct, data):
-    with open(cms_path(ct), 'w') as f:
-        json.dump(data, f, indent=2, default=str)
-
-# ── Page-content helpers ─────────────────────────────────────────────────────
+# ── Page-content helpers ──────────────────────────────────────────────────────
 
 def read_page(page_key):
     page = PAGES[page_key]
-    html_path = SITE_ROOT / page['file']
-    if not html_path.exists():
+    html = _read_file(page['file'])
+    if not html:
         return None, {}
-    with open(html_path, encoding='utf-8') as f:
-        soup = BeautifulSoup(f.read(), 'lxml')
+    soup = BeautifulSoup(html, 'lxml')
     values = {}
     for section in page['sections']:
         for field in section['fields']:
@@ -93,13 +160,11 @@ def read_page(page_key):
 
 def write_page(page_key, form_data):
     page = PAGES[page_key]
-    html_path = SITE_ROOT / page['file']
-    if not html_path.exists():
+    html = _read_file(page['file'])
+    if not html:
         return False, 'File not found'
 
-    with open(html_path, encoding='utf-8') as f:
-        soup = BeautifulSoup(f.read(), 'lxml')
-
+    soup = BeautifulSoup(html, 'lxml')
     for section in page['sections']:
         for field in section['fields']:
             fid = field['id']
@@ -110,7 +175,6 @@ def write_page(page_key, form_data):
             if el is None:
                 continue
             if field['type'] == 'text':
-                # Replace first text node, keeping child elements (e.g. <span class="arr">)
                 replaced = False
                 for child in list(el.children):
                     if isinstance(child, NavigableString):
@@ -127,13 +191,8 @@ def write_page(page_key, form_data):
             elif field['type'] == 'href':
                 el['href'] = val
 
-    # backup
-    backup = html_path.with_suffix('.bak')
-    shutil.copy2(html_path, backup)
-
-    with open(html_path, 'w', encoding='utf-8') as f:
-        f.write(str(soup))
-    return True, 'Saved'
+    ok = _write_file(page['file'], str(soup), f'Page edit: {page["label"]}')
+    return ok, 'Saved' if ok else 'Save failed'
 
 # ── Auth routes ───────────────────────────────────────────────────────────────
 
@@ -160,8 +219,7 @@ def logout():
 @login_required
 def dashboard():
     counts = {ct: len(load_cms(ct)) for ct in CMS_TYPES}
-    pages_list = [{'key': k, 'label': v['label'], 'file': v['file']} for k, v in PAGES.items()]
-    return render_template('dashboard.html', pages=pages_list, cms_types=CMS_TYPES, counts=counts)
+    return render_template('dashboard.html', cms_types=CMS_TYPES, counts=counts)
 
 # ── Page editor ───────────────────────────────────────────────────────────────
 
@@ -170,19 +228,15 @@ def dashboard():
 def page_editor(page_key):
     if page_key not in PAGES:
         abort(404)
-    page_meta = PAGES[page_key]
-
     if request.method == 'POST':
         ok, msg = write_page(page_key, request.form)
         flash(msg, 'success' if ok else 'error')
         return redirect(url_for('page_editor', page_key=page_key))
-
     _, values = read_page(page_key)
     return render_template('page_editor.html',
                            page_key=page_key,
-                           page_meta=page_meta,
-                           values=values,
-                           cms_types=CMS_TYPES)
+                           page_meta=PAGES[page_key],
+                           values=values)
 
 # ── CMS list ──────────────────────────────────────────────────────────────────
 
@@ -193,10 +247,9 @@ def cms_list(ct):
         abort(404)
     items = load_cms(ct)
     items.sort(key=lambda x: x.get('updated_at', ''), reverse=True)
-    return render_template('cms_list.html', ct=ct, meta=CMS_TYPES[ct],
-                           items=items, cms_types=CMS_TYPES)
+    return render_template('cms_list.html', ct=ct, meta=CMS_TYPES[ct], items=items)
 
-# ── CMS create / edit ─────────────────────────────────────────────────────────
+# ── CMS new ───────────────────────────────────────────────────────────────────
 
 @app.route('/admin/cms/<ct>/new', methods=['GET', 'POST'])
 @login_required
@@ -226,7 +279,9 @@ def cms_new(ct):
         flash('Created successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
-                           item=None, grad_options=GRAD_OPTIONS, cms_types=CMS_TYPES)
+                           item=None, grad_options=GRAD_OPTIONS)
+
+# ── CMS edit ──────────────────────────────────────────────────────────────────
 
 @app.route('/admin/cms/<ct>/<item_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -237,7 +292,6 @@ def cms_edit(ct, item_id):
     item = next((i for i in items if i['id'] == item_id), None)
     if item is None:
         abort(404)
-
     if request.method == 'POST':
         item['title']       = request.form.get('title', '').strip()
         item['cover_glyph'] = request.form.get('cover_glyph', '').strip()
@@ -252,17 +306,17 @@ def cms_edit(ct, item_id):
         _rebuild_resource_page(ct)
         flash('Saved successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
-
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
-                           item=item, grad_options=GRAD_OPTIONS, cms_types=CMS_TYPES)
+                           item=item, grad_options=GRAD_OPTIONS)
+
+# ── CMS delete / toggle ───────────────────────────────────────────────────────
 
 @app.route('/admin/cms/<ct>/<item_id>/delete', methods=['POST'])
 @login_required
 def cms_delete(ct, item_id):
     if ct not in CMS_TYPES:
         abort(404)
-    items = load_cms(ct)
-    items = [i for i in items if i['id'] != item_id]
+    items = [i for i in load_cms(ct) if i['id'] != item_id]
     save_cms(ct, items)
     _rebuild_resource_page(ct)
     flash('Deleted', 'success')
@@ -280,58 +334,46 @@ def cms_toggle(ct, item_id):
     _rebuild_resource_page(ct)
     return redirect(url_for('cms_list', ct=ct))
 
-# ── Public API (used by resource pages) ───────────────────────────────────────
+# ── Public JSON API ───────────────────────────────────────────────────────────
 
 @app.route('/api/cms/<ct>')
 def api_cms(ct):
     if ct not in CMS_TYPES:
         abort(404)
+    items = [i for i in load_cms(ct) if i.get('published')]
+    items.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    return jsonify(items)
+
+@app.route('/api/cms/<ct>/<item_id>')
+def api_article(ct, item_id):
+    if ct not in CMS_TYPES:
+        abort(404)
     items = load_cms(ct)
-    published = [i for i in items if i.get('published')]
-    published.sort(key=lambda x: x.get('created_at', ''), reverse=True)
-    return jsonify(published)
+    item = next((i for i in items if i['id'] == item_id and i.get('published')), None)
+    if not item:
+        abort(404)
+    return jsonify(item)
 
-# ── Image upload ──────────────────────────────────────────────────────────────
+# ── Static site passthrough (local only) ─────────────────────────────────────
 
-@app.route('/admin/upload', methods=['POST'])
-@login_required
-def upload():
-    f = request.files.get('file')
-    if not f:
-        return jsonify({'error': 'no file'}), 400
-    ext = Path(f.filename).suffix.lower()
-    if ext not in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'):
-        return jsonify({'error': 'unsupported type'}), 400
-    name = str(uuid.uuid4()) + ext
-    dest = SITE_ROOT / 'uploads' / name
-    dest.parent.mkdir(exist_ok=True)
-    f.save(str(dest))
-    return jsonify({'url': f'/uploads/{name}'})
+if not USE_GITHUB:
+    @app.route('/uploads/<path:filename>')
+    def serve_upload(filename):
+        return send_from_directory(str(SITE_ROOT / 'uploads'), filename)
 
-# ── Static site passthrough ───────────────────────────────────────────────────
+    @app.route('/', defaults={'path': 'index.html'})
+    @app.route('/<path:path>')
+    def serve_site(path):
+        if path.startswith('admin') or path.startswith('api'):
+            abort(404)
+        full = SITE_ROOT / path
+        if full.is_dir():
+            full = full / 'index.html'
+        if full.exists():
+            return send_from_directory(str(full.parent), full.name)
+        abort(404)
 
-@app.route('/uploads/<path:filename>')
-def serve_upload(filename):
-    return send_from_directory(str(SITE_ROOT / 'uploads'), filename)
-
-@app.route('/', defaults={'path': 'index.html'})
-@app.route('/<path:path>')
-def serve_site(path):
-    full = SITE_ROOT / path
-    if full.is_dir():
-        full = full / 'index.html'
-    if full.exists():
-        return send_from_directory(str(full.parent), full.name)
-    abort(404)
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
-def _slugify(text):
-    import re
-    text = text.lower().strip()
-    text = re.sub(r'[^\w\s-]', '', text)
-    text = re.sub(r'[\s_-]+', '-', text)
-    return text[:80]
+# ── Article + resource page generators ───────────────────────────────────────
 
 ARTICLE_TEMPLATE = """\
 <!doctype html>
@@ -386,18 +428,30 @@ ARTICLE_TEMPLATE = """\
 </html>"""
 
 def _generate_article_pages(ct):
-    """Write one static HTML file per published CMS item into resources/{ct}/."""
-    out_dir = SITE_ROOT / 'resources' / ct
-    out_dir.mkdir(exist_ok=True)
-
-    # Remove stale pages for unpublished / deleted items
-    existing = {p.stem for p in out_dir.glob('*.html')}
     items = load_cms(ct)
+    meta  = CMS_TYPES[ct]
     published_ids = {i['id'] for i in items if i.get('published')}
-    for stem in existing - published_ids:
-        (out_dir / f'{stem}.html').unlink(missing_ok=True)
 
-    meta = CMS_TYPES[ct]
+    # Delete stale articles from GitHub / local
+    if USE_GITHUB:
+        url = f'https://api.github.com/repos/{GITHUB_REPO}/contents/resources/{ct}'
+        r = requests.get(url, headers=_gh_headers(), params={'ref': GITHUB_BRANCH})
+        if r.status_code == 200:
+            for f in r.json():
+                stem = Path(f['name']).stem
+                if stem not in published_ids:
+                    requests.delete(
+                        f['url'], headers=_gh_headers(),
+                        json={'message': f'CMS: remove {ct}/{f["name"]}',
+                              'sha': f['sha'], 'branch': GITHUB_BRANCH}
+                    )
+    else:
+        out_dir = SITE_ROOT / 'resources' / ct
+        out_dir.mkdir(exist_ok=True)
+        for p in out_dir.glob('*.html'):
+            if p.stem not in published_ids:
+                p.unlink(missing_ok=True)
+
     for item in items:
         if not item.get('published'):
             continue
@@ -415,11 +469,10 @@ def _generate_article_pages(ct):
             kind=item.get('kind', ''),
             tag_pills=tag_pills,
         )
-        with open(out_dir / f'{item["id"]}.html', 'w', encoding='utf-8') as f:
-            f.write(html)
+        repo_path = f'resources/{ct}/{item["id"]}.html'
+        _write_file(repo_path, html, f'CMS: publish {ct} article')
 
 def _rebuild_resource_page(ct):
-    """Re-inject CMS cards into the static resource listing page and write article files."""
     _generate_article_pages(ct)
 
     page_map = {
@@ -427,22 +480,22 @@ def _rebuild_resource_page(ct):
         'case-studies': 'resources/case-studies.html',
         'guides':       'resources/guides.html',
     }
-    html_file = SITE_ROOT / page_map[ct]
-    if not html_file.exists():
+    repo_path = page_map[ct]
+    html = _read_file(repo_path)
+    if not html:
         return
 
     items = [i for i in load_cms(ct) if i.get('published')]
     items.sort(key=lambda x: x.get('created_at', ''), reverse=True)
 
     cover_label = CMS_TYPES[ct]['cover_label']
-    cards_html = ''
     if items:
+        cards_html = ''
         for item in items:
             tags_html = ''.join(
                 f'<span>{t}</span><span class="dot"></span>'
                 for t in item.get('tags', [])
             ).rstrip('<span class="dot"></span>')
-            # Relative link from resources/{ct}.html → resources/{ct}/{id}.html
             item_url = f'{ct}/{item["id"]}.html'
             cards_html += f'''
     <a class="res-card" href="{item_url}" data-cms-id="{item["id"]}">
@@ -458,11 +511,9 @@ def _rebuild_resource_page(ct):
       </div>
     </a>'''
     else:
-        cards_html = '<p class="lead" style="color:var(--fg-secondary);padding:40px 0;">No published entries yet. Add some from the admin panel.</p>'
+        cards_html = '<p class="lead" style="color:var(--fg-secondary);padding:40px 0;">No published entries yet.</p>'
 
-    with open(html_file, encoding='utf-8') as f:
-        soup = BeautifulSoup(f.read(), 'lxml')
-
+    soup = BeautifulSoup(html, 'lxml')
     grid = soup.select_one('.res-grid')
     if grid:
         banner = soup.select_one('.status-banner')
@@ -473,22 +524,18 @@ def _rebuild_resource_page(ct):
         for child in list(frag.children):
             grid.append(child)
 
-    with open(html_file, 'w', encoding='utf-8') as f:
-        f.write(str(soup))
+    _write_file(repo_path, str(soup), f'CMS: rebuild {ct} listing')
 
-# ── Article detail page (still served by Flask on 3001 as fallback) ───────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
-@app.route('/api/cms/<ct>/<item_id>')
-def api_article(ct, item_id):
-    """JSON fallback — returns item data for programmatic use."""
-    if ct not in CMS_TYPES:
-        abort(404)
-    items = load_cms(ct)
-    item = next((i for i in items if i['id'] == item_id and i.get('published')), None)
-    if not item:
-        abort(404)
-    return jsonify(item)
+def _slugify(text):
+    import re
+    text = text.lower().strip()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[\s_-]+', '-', text)
+    return text[:80]
 
 if __name__ == '__main__':
-    print('GTXO Admin running at http://localhost:3001/admin/')
-    app.run(port=3001, debug=True)
+    port = int(os.environ.get('PORT', 3001))
+    print(f'GTXO Admin → http://localhost:{port}/admin/')
+    app.run(host='0.0.0.0', port=port, debug=not USE_GITHUB)
