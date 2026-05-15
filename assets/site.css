@@ -484,7 +484,7 @@ h1, h2, h3, h4, p { margin: 0; }
   background: rgba(0,0,0,.32); backdrop-filter: blur(8px);
   padding: 4px 8px; border-radius: 4px;
 }
-.res-card .cover-glyph { color: rgba(255,255,255,.92); font-family: var(--font-display); font-weight: 800; font-size: 28px; letter-spacing: -.02em; }
+.res-card .cover-glyph { color: rgba(255,255,255,.92); font-family: var(--font-display); font-weight: 800; font-size: 28px; letter-spacing: -.02em; text-align: center; padding: 0 20px; }
 .res-card .body { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .res-card .kind {
   font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted);
