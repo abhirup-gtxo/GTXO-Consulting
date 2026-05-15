@@ -337,14 +337,11 @@ h1, h2, h3, h4, p { margin: 0; }
 /* =====================================================================
    TESTIMONIALS
    ===================================================================== */
-.tgrid { column-count: 3; column-gap: 18px; }
+.tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
 .t-card {
   background: #fff; border: 1px solid var(--border); border-radius: 14px;
   padding: 24px; display: flex; flex-direction: column; gap: 16px;
   position: relative;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  margin-bottom: 18px;
 }
 .t-card::before {
   content: '\201C';
@@ -726,8 +723,7 @@ h1, h2, h3, h4, p { margin: 0; }
   .foot-grid { grid-template-columns: 2fr 1fr 1fr; }
   .stat-row { grid-template-columns: 1fr 1fr; }
   .logo-wall { grid-template-columns: repeat(4, 1fr); }
-  .res-grid, .outline-grid { grid-template-columns: repeat(2, 1fr); }
-  .tgrid { column-count: 2; }
+  .res-grid, .tgrid, .outline-grid { grid-template-columns: repeat(2, 1fr); }
   .process-row { grid-template-columns: 1fr 1fr; }
   .channel-grid { grid-template-columns: 1fr 1fr; }
   .split, .split-tight, .hero-split { grid-template-columns: 1fr; gap: 36px; }
@@ -735,10 +731,9 @@ h1, h2, h3, h4, p { margin: 0; }
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .audience-grid, .hub-grid, .hub-grid.cols-4, .hub-grid.cols-2,
-  .res-grid, .stat-row, .logo-wall, .channel-grid,
+  .res-grid, .tgrid, .stat-row, .logo-wall, .channel-grid,
   .process-row, .outline-grid, .outline-grid.cols-2, .outline-grid.cols-4,
   .foot-grid { grid-template-columns: 1fr; }
-  .tgrid { column-count: 1; }
   .section { padding: 72px 0; }
   .hero { padding: 56px 0 72px; }
 }

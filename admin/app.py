@@ -591,13 +591,22 @@ def _t_card_html(item):
         f'\n    </div>'
     )
 
+TESTIMONIAL_PAGES = {
+    'index.html':                         'first3',
+    'clients.html':                       'all',
+    'solutions/paid-marketing.html':      'first3',
+    'solutions/demand-gen.html':          'first3',
+    'solutions/gtm-strategy.html':        'first3',
+    'solutions/content-strategy.html':    'first3',
+    'solutions/ai-led-seo.html':          'first3',
+    'solutions/ai-solutions.html':        'first3',
+}
+
 def _rebuild_testimonials():
     items = [i for i in load_testimonials() if i.get('active')]
-
-    # index.html — show first 3 active testimonials
-    _inject_tgrid('index.html', items[:3])
-    # clients.html — show all active testimonials
-    _inject_tgrid('clients.html', items)
+    for repo_path, mode in TESTIMONIAL_PAGES.items():
+        subset = items if mode == 'all' else items[:3]
+        _inject_tgrid(repo_path, subset)
 
 def _inject_tgrid(repo_path, items):
     html = _read_file(repo_path)
