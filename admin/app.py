@@ -559,12 +559,25 @@ def _t_card_html(item):
     name   = escape(item.get('name', ''))
     desg   = escape(item.get('designation', ''))
     co     = escape(item.get('company', ''))
-    # Collapse newlines/extra whitespace into a single clean string
-    raw    = item.get('testimonial', '').replace('\r\n', ' ').replace('\n', ' ')
-    raw    = re.sub(r'\s{2,}', ' ', raw).strip()
-    quote  = escape(raw)
     tid    = item.get('id', '')
     initls = _initials(item.get('name', ''))
+
+    # Split on blank lines → paragraphs; preserve single line breaks within a paragraph
+    raw = item.get('testimonial', '').replace('\r\n', '\n').strip()
+    blocks = re.split(r'\n{2,}', raw)
+    paras = []
+    for block in blocks:
+        block = block.strip()
+        if not block:
+            continue
+        lines = [escape(l.strip()) for l in block.split('\n') if l.strip()]
+        paras.append('<br>'.join(lines))
+    # Wrap first paragraph with opening curly quote
+    if paras:
+        paras[0] = '&#x201C;' + paras[0]
+        paras[-1] = paras[-1] + '&#x201D;'
+    quote_html = ''.join(f'<p>{p}</p>' for p in paras)
+
     return (
         f'\n    <div class="t-card" data-tid="{tid}">'
         f'\n      <div class="t-head">'
@@ -574,7 +587,7 @@ def _t_card_html(item):
         f'\n          <div class="t-role">{desg} · {co}</div>'
         f'\n        </div>'
         f'\n      </div>'
-        f'\n      <p class="t-quote">&#x201C;{quote}&#x201D;</p>'
+        f'\n      <div class="t-quote">{quote_html}</div>'
         f'\n    </div>'
     )
 

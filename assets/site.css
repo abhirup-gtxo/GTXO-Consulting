@@ -337,7 +337,7 @@ h1, h2, h3, h4, p { margin: 0; }
 /* =====================================================================
    TESTIMONIALS
    ===================================================================== */
-.tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+.tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
 .t-card {
   background: #fff; border: 1px solid var(--border); border-radius: 14px;
   padding: 24px; display: flex; flex-direction: column; gap: 16px;
@@ -360,13 +360,11 @@ h1, h2, h3, h4, p { margin: 0; }
 .t-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--fg); }
 .t-role { font-size: 12px; color: var(--fg-secondary); margin-top: 2px; }
 .t-quote {
-  font-size: 14px; line-height: 1.65; color: var(--fg-secondary);
-  margin: 0; flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 14px; line-height: 1.7; color: var(--fg-secondary);
+  margin: 0;
 }
+.t-quote p { margin: 0 0 10px; }
+.t-quote p:last-child { margin-bottom: 0; }
 .t-quote b { font-weight: 600; color: var(--fg); }
 .t-source {
   display: flex; align-items: center; gap: 6px;
