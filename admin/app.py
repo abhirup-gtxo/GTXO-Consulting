@@ -509,11 +509,9 @@ def _rebuild_resource_page(ct):
     if items:
         cards_html = ''
         for item in items:
-            tags_html = ''.join(
-                f'<span>{t}</span><span class="dot"></span>'
-                for t in item.get('tags', [])
-            ).rstrip('<span class="dot"></span>')
-            item_url = f'{ct}/{item.get("slug") or item["id"]}.html'
+            tag_parts = item.get('tags', [])
+            tags_html = '<span class="dot"></span>'.join(f'<span>{t}</span>' for t in tag_parts)
+            item_url = f'/resources/{ct}/{item.get("slug") or item["id"]}'
             cards_html += f'''
     <a class="res-card" href="{item_url}" data-cms-id="{item["id"]}">
       <div class="cover {item.get("cover_grad","grad-a")}">
