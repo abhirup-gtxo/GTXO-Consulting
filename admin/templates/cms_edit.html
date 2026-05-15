@@ -103,6 +103,25 @@
         </div>
       </div>
 
+      <div class="editor-section">
+        <div class="editor-section-title">SEO</div>
+        <div class="field">
+          <label>Slug</label>
+          <input type="text" name="slug" id="slug-input" value="{{ item.slug if item else '' }}" placeholder="auto-generated-from-title">
+          <p class="field-hint">URL: /resources/{{ ct }}/<em>slug</em>.html</p>
+        </div>
+        <div class="field">
+          <label>Meta Title</label>
+          <input type="text" name="meta_title" value="{{ item.meta_title if item else '' }}" placeholder="Defaults to article title">
+          <p class="field-hint">Shown in browser tab and search results (50–60 chars)</p>
+        </div>
+        <div class="field">
+          <label>Meta Description</label>
+          <textarea name="meta_description" rows="3" placeholder="Defaults to description">{{ item.meta_description if item else '' }}</textarea>
+          <p class="field-hint">Shown in search snippets (120–160 chars)</p>
+        </div>
+      </div>
+
       {% if item %}
       <div class="editor-section meta-info">
         <div class="editor-section-title">Info</div>
@@ -141,6 +160,19 @@ var quill = new Quill('#quill-editor', {
       ['clean']
     ]
   }
+});
+
+// Auto-populate slug from title if slug is empty
+const titleInput = document.querySelector('input[name="title"]');
+const slugInput  = document.getElementById('slug-input');
+titleInput.addEventListener('input', function() {
+  if (!slugInput.dataset.manual) {
+    slugInput.value = titleInput.value.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+  }
+});
+slugInput.addEventListener('input', function() {
+  slugInput.dataset.manual = '1';
 });
 
 document.getElementById('cms-form').addEventListener('submit', function(e) {

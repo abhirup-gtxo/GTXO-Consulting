@@ -261,19 +261,23 @@ def cms_new(ct):
     if request.method == 'POST':
         items = load_cms(ct)
         now = datetime.utcnow().isoformat()
+        title = request.form.get('title', '').strip()
+        slug  = request.form.get('slug', '').strip() or _slugify(title)
         item = {
-            'id':          str(uuid.uuid4()),
-            'title':       request.form.get('title', '').strip(),
-            'slug':        _slugify(request.form.get('title', '')),
-            'cover_glyph': request.form.get('cover_glyph', '').strip(),
-            'cover_grad':  request.form.get('cover_grad', 'grad-a'),
-            'kind':        request.form.get('kind', CMS_TYPES[ct]['kind_default']).strip(),
-            'tags':        [t.strip() for t in request.form.get('tags', '').split(',') if t.strip()],
-            'description': request.form.get('description', '').strip(),
-            'content':     request.form.get('content', ''),
-            'published':   request.form.get('published') == 'on',
-            'created_at':  now,
-            'updated_at':  now,
+            'id':               str(uuid.uuid4()),
+            'title':            title,
+            'slug':             slug,
+            'cover_glyph':      request.form.get('cover_glyph', '').strip(),
+            'cover_grad':       request.form.get('cover_grad', 'grad-a'),
+            'kind':             request.form.get('kind', CMS_TYPES[ct]['kind_default']).strip(),
+            'tags':             [t.strip() for t in request.form.get('tags', '').split(',') if t.strip()],
+            'description':      request.form.get('description', '').strip(),
+            'meta_title':       request.form.get('meta_title', '').strip(),
+            'meta_description': request.form.get('meta_description', '').strip(),
+            'content':          request.form.get('content', ''),
+            'published':        request.form.get('published') == 'on',
+            'created_at':       now,
+            'updated_at':       now,
         }
         items.append(item)
         save_cms(ct, items)
@@ -295,15 +299,19 @@ def cms_edit(ct, item_id):
     if item is None:
         abort(404)
     if request.method == 'POST':
-        item['title']       = request.form.get('title', '').strip()
-        item['cover_glyph'] = request.form.get('cover_glyph', '').strip()
-        item['cover_grad']  = request.form.get('cover_grad', 'grad-a')
-        item['kind']        = request.form.get('kind', '').strip()
-        item['tags']        = [t.strip() for t in request.form.get('tags', '').split(',') if t.strip()]
-        item['description'] = request.form.get('description', '').strip()
-        item['content']     = request.form.get('content', '')
-        item['published']   = request.form.get('published') == 'on'
-        item['updated_at']  = datetime.utcnow().isoformat()
+        title = request.form.get('title', '').strip()
+        item['title']            = title
+        item['slug']             = request.form.get('slug', '').strip() or _slugify(title)
+        item['cover_glyph']      = request.form.get('cover_glyph', '').strip()
+        item['cover_grad']       = request.form.get('cover_grad', 'grad-a')
+        item['kind']             = request.form.get('kind', '').strip()
+        item['tags']             = [t.strip() for t in request.form.get('tags', '').split(',') if t.strip()]
+        item['description']      = request.form.get('description', '').strip()
+        item['meta_title']       = request.form.get('meta_title', '').strip()
+        item['meta_description'] = request.form.get('meta_description', '').strip()
+        item['content']          = request.form.get('content', '')
+        item['published']        = request.form.get('published') == 'on'
+        item['updated_at']       = datetime.utcnow().isoformat()
         save_cms(ct, items)
         _rebuild_resource_page(ct)
         flash('Saved successfully', 'success')
@@ -383,7 +391,8 @@ ARTICLE_TEMPLATE = """\
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{title} · Grow10x</title>
+  <title>{meta_title} · Grow10x</title>
+  <meta name="description" content="{meta_description}">
   <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body data-page="resources" data-depth="2">
@@ -463,6 +472,8 @@ def _generate_article_pages(ct):
         )
         html = ARTICLE_TEMPLATE.format(
             title=item['title'],
+            meta_title=item.get('meta_title') or item['title'],
+            meta_description=item.get('meta_description') or item.get('description', ''),
             description=item.get('description', ''),
             content=item.get('content', ''),
             cover_label=meta['cover_label'],
