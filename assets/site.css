@@ -426,24 +426,20 @@ h1, h2, h3, h4, p { margin: 0; }
   transition: opacity 200ms var(--ease-out);
 }
 .logo-marquee-item img {
+  height: 38px;
   width: auto;
+  max-width: 160px;
   display: block;
-  opacity: .9;
+  opacity: .75;
+  object-fit: contain;
   transition: opacity 200ms var(--ease-out);
 }
 .logo-marquee-item:hover img { opacity: 1; }
 
-/* Per-logo heights — tuned to give each logo roughly equal visual mass.
-   Shopflo is the reference (it's the widest, so it gets the smallest height
-   but still reads at the same visible size). Square / padded logos get bumped. */
-.logo-marquee-item img[data-logo="shopflo"]    { height: 32px; }
-.logo-marquee-item img[data-logo="xobin"]      { height: 44px; }
-.logo-marquee-item img[data-logo="certinal"]   { height: 60px; }
-.logo-marquee-item img[data-logo="lythouse"]   { height: 64px; }
-.logo-marquee-item img[data-logo="ambee"]      { height: 76px; }
-.logo-marquee-item img[data-logo="wonderlend"] { height: 107px; }
-.logo-marquee-item img[data-logo="gush"]       { height: 92px; }
-.logo-marquee-item img[data-logo="sketchnote"] { height: 135px; }
+/* Per-logo fine-tuning — keep visual weight consistent */
+.logo-marquee-item img[data-logo="wonderlend"] { height: 52px; }
+.logo-marquee-item img[data-logo="gush"]       { height: 42px; }
+.logo-marquee-item img[data-logo="xobin"]      { height: 34px; }
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
