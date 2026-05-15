@@ -205,10 +205,20 @@
   });
 
   // ------- boot -------
+  function injectFavicon() {
+    if (document.querySelector('link[rel="icon"]')) return;
+    const link = document.createElement("link");
+    link.rel = "icon";
+    link.type = "image/svg+xml";
+    link.href = withBase("assets/favicon.svg");
+    document.head.appendChild(link);
+  }
+
   function boot() {
     // apply emphasis BEFORE rendering so first paint is correct
     document.body.setAttribute("data-emphasis", getEmphasis());
 
+    injectFavicon();
     renderNav();
     renderFooter();
     renderTweaks();

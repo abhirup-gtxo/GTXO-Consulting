@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- shadow cube (offset, dark) -->
+  <rect x="5" y="5" width="24" height="24" rx="5" fill="#0d0d2b"/>
+  <!-- main blue cube -->
+  <rect x="2" y="2" width="24" height="24" rx="5" fill="#0f5ef7"/>
+  <!-- subtle highlight on top-left to suggest 3D -->
+  <rect x="2" y="2" width="24" height="10" rx="5" fill="#2d7dff" opacity="0.5"/>
+</svg>
