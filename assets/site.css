@@ -386,10 +386,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell {
   display: flex; align-items: center; justify-content: center;
   padding: 32px 28px;
-  border-right: 1px solid var(--gtxo-ink-100);
-  border-bottom: 1px solid var(--gtxo-ink-100);
 }
-.logo-cell:nth-child(4n)   { border-right: none; }
 .logo-cell img {
   height: 72px; width: auto; max-width: 160px;
   object-fit: contain; display: block;
