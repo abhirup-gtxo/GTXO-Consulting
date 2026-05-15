@@ -240,6 +240,16 @@ def page_editor(page_key):
                            page_meta=PAGES[page_key],
                            values=values)
 
+# ── Rebuild all ───────────────────────────────────────────────────────────────
+
+@app.route('/admin/rebuild-all', methods=['POST'])
+@login_required
+def rebuild_all():
+    for ct in CMS_TYPES:
+        _rebuild_resource_page(ct)
+    flash('All pages rebuilt successfully', 'success')
+    return redirect(url_for('dashboard'))
+
 # ── CMS list ──────────────────────────────────────────────────────────────────
 
 @app.route('/admin/cms/<ct>')

@@ -7,7 +7,12 @@
     <h1 class="page-title">Dashboard</h1>
     <p class="page-sub">Manage pages and content for grow10x.online — {{ pages_list|length }} pages</p>
   </div>
-  <a href="/" target="_blank" class="btn-secondary">View live site →</a>
+  <div style="display:flex;gap:8px;">
+    <form action="/admin/rebuild-all" method="post">
+      <button type="submit" class="btn-secondary">Rebuild all pages</button>
+    </form>
+    <a href="/" target="_blank" class="btn-secondary">View live site →</a>
+  </div>
 </div>
 
 <!-- CMS stats -->
