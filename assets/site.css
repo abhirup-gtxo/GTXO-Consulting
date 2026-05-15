@@ -858,6 +858,11 @@ h1, h2, h3, h4, p { margin: 0; }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--fg-muted); }
 .form-group textarea { resize: vertical; min-height: 140px; }
+.form-field-error { font-size: 13px; color: #e53935; margin-top: 4px; display: block; }
+.form-error-banner { font-size: 14px; color: #e53935; margin-bottom: 12px; }
+.form-group input[aria-invalid="true"],
+.form-group select[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] { border-color: #e53935; }
 .form-footer {
   display: flex;
   align-items: center;
