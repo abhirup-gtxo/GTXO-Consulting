@@ -1,7 +1,7 @@
 [
   {
     "id": "b1e2d3c4-0001-0000-0000-000000000001",
-    "title": "Why we kill marketing strategy docs after week two",
+    "title": "test",
     "slug": "why-we-kill-marketing-strategy-docs-after-week-two",
     "cover_glyph": "Lean GTM",
     "cover_grad": "grad-a",
@@ -10,11 +10,11 @@
       "GTM",
       "Process"
     ],
-    "description": "The first 60 days decide the year. Here\u2019s the cadence we use to ship them.",
-    "content": "<p>Most strategy documents die in a shared Google Drive folder, never opened after week two. We stopped writing them that way.</p><h2>What we do instead</h2><p>We ship a one-page operating doc on day one, then update it weekly based on what the data is telling us. No more 40-slide decks that are out of date before the ink is dry.</p><p>The first 60 days are about learning, not executing a plan you wrote before you knew anything. Quick wins first \u2014 they fund the trust you need for the bigger moves.</p>",
+    "description": "test123",
+    "content": "<p>test1234</p>",
     "published": true,
     "created_at": "2026-05-01T10:00:00",
-    "updated_at": "2026-05-15T09:38:39.285069"
+    "updated_at": "2026-05-15T15:44:06.810709"
   },
   {
     "id": "b1e2d3c4-0002-0000-0000-000000000002",
