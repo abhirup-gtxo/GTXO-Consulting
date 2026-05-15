@@ -391,10 +391,9 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell img {
   height: 72px; width: auto; max-width: 160px;
   object-fit: contain; display: block;
-  filter: grayscale(100%) opacity(55%);
-  transition: filter 280ms var(--ease-out);
+  transition: transform 280ms var(--ease-out);
 }
-.logo-cell:hover img { filter: grayscale(0%) opacity(100%); }
+.logo-cell:hover img { transform: scale(1.1); }
 .logo-cell img[data-logo="wonderlend-hubs"] { height: 131px; }
 .logo-cell img[data-logo="gush"]            { height: 94px; }
 .logo-cell img[data-logo="ambee"]           { height: 131px; }
@@ -402,8 +401,9 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell img[data-logo="certinal"]        { height: 101px; }
 .logo-cell img[data-logo="sketchnote"]      { height: 200px; }
 .logo-cell img[data-logo="globemoving"]     { height: 108px; }
-.logo-cell img[data-logo="mintoak"]         { height: 94px; }
-.logo-cell img[data-logo="recurpost"]       { height: 108px; }
+.logo-cell img[data-logo="mintoak"]         { height: 94px; transform: translateY(-25%); }
+.logo-cell:hover img[data-logo="mintoak"]   { transform: translateY(-25%) scale(1.1); }
+.logo-cell img[data-logo="recurpost"]       { height: 130px; }
 .logo-cell img[data-logo="enthral-ai"]      { height: 108px; }
 
 /* Continuous-scroll logo marquee (home, "trusted by" strip) */
@@ -433,10 +433,9 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-marquee-item img {
   width: auto;
   display: block;
-  opacity: .9;
-  transition: opacity 200ms var(--ease-out);
+  transition: transform 200ms var(--ease-out);
 }
-.logo-marquee-item:hover img { opacity: 1; }
+.logo-marquee-item:hover img { transform: scale(1.1); }
 
 /* Per-logo heights — tuned to give each logo roughly equal visual mass.
    Shopflo is the reference (it's the widest, so it gets the smallest height

@@ -14,6 +14,9 @@ venv/
 # Backups created by page editor
 *.bak
 
+# Local dev server
+serve.py
+
 # OS
 .DS_Store
 Thumbs.db
