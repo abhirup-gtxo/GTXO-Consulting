@@ -89,6 +89,7 @@
         </div>
 
         <form class="contact-form" id="contact-form" action="https://formspree.io/f/mdabqnkw" method="POST">
+          <input type="hidden" name="_subject" id="cf-subject">
           <div class="form-row form-row-2">
             <div class="form-group">
               <label for="cf-name">Full name <span class="req">*</span></label>
@@ -179,18 +180,24 @@
       e.preventDefault();
       btn.disabled = true;
       btn.textContent = 'Sending…';
+      // Set a unique subject per lead so each arrives in its own email thread
+      const name    = (document.getElementById('cf-name').value || '').trim();
+      const company = (document.getElementById('cf-company').value || '').trim();
+      const label   = company ? name + ' · ' + company : name;
+      document.getElementById('cf-subject').value = 'New lead: ' + label;
       try {
         const res = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
           headers: { 'Accept': 'application/json' }
         });
+        const body = await res.json().catch(() => ({}));
         if (res.ok) {
           window.location.href = '/thank-you';
         } else {
           btn.disabled = false;
           btn.innerHTML = 'Send message &rarr;';
-          alert('Something went wrong. Please try again.');
+          alert('Status ' + res.status + ': ' + JSON.stringify(body));
         }
       } catch {
         btn.disabled = false;
