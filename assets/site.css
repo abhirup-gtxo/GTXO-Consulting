@@ -394,7 +394,8 @@ h1, h2, h3, h4, p { margin: 0; }
   transition: filter 280ms var(--ease-out);
 }
 .logo-cell:hover img { filter: grayscale(0%) opacity(100%); }
-.logo-cell img[data-logo="wonderlend-hubs"] { height: 101px; }
+.logo-cell img[data-logo="wonderlend-hubs"] { height: 131px; }
+.logo-cell img[data-logo="gush"]            { height: 94px; }
 .logo-cell img[data-logo="ambee"]           { height: 101px; }
 .logo-cell img[data-logo="certinal"]        { height: 101px; }
 .logo-cell img[data-logo="sketchnote"]      { height: 200px; }
