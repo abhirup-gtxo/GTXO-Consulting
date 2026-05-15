@@ -642,7 +642,7 @@ def _rebuild_logo_wall():
     from html import escape as _esc
     logos = [l for l in load_logos() if l.get('active')]
     cells = ''.join(
-        f'\n<div class="logo-cell"><img src="assets/clients/{l["filename"]}" alt="{_esc(l.get("alt",""))}"></div>'
+        f'\n<div class="logo-cell"><img src="assets/clients/{l["filename"]}" alt="{_esc(l.get("alt",""))}" data-logo="{Path(l["filename"]).stem}"></div>'
         for l in logos
     ) + '\n'
     html = _read_file('clients.html')
