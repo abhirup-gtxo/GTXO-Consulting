@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ page_meta.label }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / Pages / {{ page_meta.label }}</div>
+    <h1 class="page-title">{{ page_meta.label }}</h1>
+    <p class="page-sub">{{ page_meta.file }}</p>
+  </div>
+  <div class="header-actions">
+    <a href="/{{ page_meta.file }}" target="_blank" class="btn-secondary">Preview →</a>
+  </div>
+</div>
+
+<form method="post" id="page-form">
+  {% for section in page_meta.sections %}
+  <div class="editor-section">
+    <div class="editor-section-title">{{ section.label }}</div>
+    {% for field in section.fields %}
+    <div class="field">
+      <label>
+        {{ field.label }}
+        {% if field.type == 'html' %}
+        <span class="badge">HTML</span>
+        {% elif field.type == 'href' %}
+        <span class="badge">URL</span>
+        {% endif %}
+      </label>
+      {% if field.get('hint') %}
+      <p class="field-hint">{{ field.hint }}</p>
+      {% endif %}
+
+      {% if field.type == 'html' %}
+      <div class="rich-wrap" data-field="{{ field.id }}">
+        <div class="rich-toolbar">
+          <button type="button" onclick="execCmd('bold')"><b>B</b></button>
+          <button type="button" onclick="execCmd('italic')"><i>I</i></button>
+          <button type="button" onclick="insertEmph()"><span style="font-style:italic;color:#0f5ef7">emph</span></button>
+        </div>
+        <div class="rich-editor" contenteditable="true" data-name="{{ field.id }}">{{ values.get(field.id, '')|safe }}</div>
+        <input type="hidden" name="{{ field.id }}" value="{{ values.get(field.id, '')|e }}">
+      </div>
+      {% elif field.type == 'text' and 'lead' in field.id or 'desc' in field.id %}
+      <textarea name="{{ field.id }}" rows="3">{{ values.get(field.id, '') }}</textarea>
+      {% else %}
+      <input type="text" name="{{ field.id }}" value="{{ values.get(field.id, '') }}">
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary">Save changes</button>
+    <a href="/admin/" class="btn-secondary">Cancel</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function execCmd(cmd) {
+  document.execCommand(cmd, false, null);
+}
+function insertEmph() {
+  const sel = window.getSelection();
+  if (sel.rangeCount) {
+    const range = sel.getRangeAt(0);
+    const text = range.toString() || 'emphasis';
+    const span = document.createElement('span');
+    span.className = 'emph';
+    span.textContent = text;
+    range.deleteContents();
+    range.insertNode(span);
+  }
+}
+
+// Sync contenteditable → hidden input before submit
+document.getElementById('page-form').addEventListener('submit', function() {
+  document.querySelectorAll('.rich-editor').forEach(el => {
+    const name = el.dataset.name;
+    const input = document.querySelector('input[name="' + name + '"]');
+    if (input) input.value = el.innerHTML;
+  });
+});
+</script>
+{% endblock %}

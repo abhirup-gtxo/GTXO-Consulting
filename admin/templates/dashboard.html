@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-sub">Manage pages and content for grow10x.online — {{ pages_list|length }} pages</p>
+  </div>
+  <a href="/" target="_blank" class="btn-secondary">View live site →</a>
+</div>
+
+<!-- CMS stats -->
+<div class="stat-cards">
+  {% for ct, meta in cms_types.items() %}
+  <a href="/admin/cms/{{ ct }}" class="stat-card">
+    <div class="stat-card-num">{{ counts[ct] }}</div>
+    <div class="stat-card-label">{{ meta.label }}</div>
+    <div class="stat-card-action">Manage →</div>
+  </a>
+  {% endfor %}
+  <a href="/admin/page/home" class="stat-card stat-card-pages">
+    <div class="stat-card-num">{{ pages|length }}</div>
+    <div class="stat-card-label">Editable Pages</div>
+    <div class="stat-card-action">Edit content →</div>
+  </a>
+</div>
+
+<!-- Pages grid -->
+<section class="dash-section">
+  <div class="section-title">Pages</div>
+  <div class="page-cards">
+    {% for p in pages_list %}
+    <a href="/admin/page/{{ p.key }}" class="page-card">
+      <div class="page-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v5h5"/><path d="M5 3h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+      </div>
+      <div class="page-card-info">
+        <div class="page-card-label">{{ p.label }}</div>
+        <div class="page-card-file">{{ p.file }}</div>
+      </div>
+      <span class="page-card-arrow">→</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CMS quick links -->
+<section class="dash-section">
+  <div class="section-title">Content</div>
+  <div class="page-cards">
+    {% for ct, meta in cms_types.items() %}
+    <a href="/admin/cms/{{ ct }}/new" class="page-card">
+      <div class="page-card-icon accent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="page-card-info">
+        <div class="page-card-label">New {{ meta.label[:-1] if meta.label.endswith('s') else meta.label }}</div>
+        <div class="page-card-file">Create a new entry</div>
+      </div>
+      <span class="page-card-arrow">→</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

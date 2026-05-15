@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login · GTXO Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/static/admin.css">
+</head>
+<body class="login-page">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-cube"></span>
+        <span class="brand-name">GTXO Admin</span>
+      </div>
+      <h1 class="login-title">Sign in</h1>
+      <p class="login-sub">Admin panel for Grow10x</p>
+
+      {% if error %}
+      <div class="toast toast-error" style="position:static;margin-bottom:20px;">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/admin/login">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" name="username" placeholder="admin" autofocus autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;margin-top:8px;">Sign in →</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

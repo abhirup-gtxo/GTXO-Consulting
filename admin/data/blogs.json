@@ -1,0 +1,52 @@
+[
+  {
+    "id": "b1e2d3c4-0001-0000-0000-000000000001",
+    "title": "Why we kill marketing strategy docs after week two",
+    "slug": "why-we-kill-marketing-strategy-docs-after-week-two",
+    "cover_glyph": "Lean GTM",
+    "cover_grad": "grad-a",
+    "kind": "Essay \u00b7 8 min",
+    "tags": [
+      "GTM",
+      "Process"
+    ],
+    "description": "The first 60 days decide the year. Here\u2019s the cadence we use to ship them.",
+    "content": "<p>Most strategy documents die in a shared Google Drive folder, never opened after week two. We stopped writing them that way.</p><h2>What we do instead</h2><p>We ship a one-page operating doc on day one, then update it weekly based on what the data is telling us. No more 40-slide decks that are out of date before the ink is dry.</p><p>The first 60 days are about learning, not executing a plan you wrote before you knew anything. Quick wins first \u2014 they fund the trust you need for the bigger moves.</p>",
+    "published": true,
+    "created_at": "2026-05-01T10:00:00",
+    "updated_at": "2026-05-15T09:38:39.285069"
+  },
+  {
+    "id": "b1e2d3c4-0002-0000-0000-000000000002",
+    "title": "Demos are a content channel \u2014 start treating them that way",
+    "slug": "demos-are-a-content-channel",
+    "cover_glyph": "Demos",
+    "cover_grad": "grad-b",
+    "kind": "Essay \u00b7 6 min",
+    "tags": [
+      "Content",
+      "Sales"
+    ],
+    "description": "The unsung pipeline lever for B2B SaaS in 2026.",
+    "content": "<p>Every demo your team gives is a compressed, high-intent version of your best content. Most companies let it disappear into a Zoom recording that nobody watches.</p><h2>Record, clip, distribute</h2><p>We\u2019ve seen clients 3\u00d7 their demo-sourced pipeline by simply clipping the best 90 seconds of each call and posting it. The objection-handling sequence is content. The product walkthrough is content. The customer question is content.</p>",
+    "published": true,
+    "created_at": "2026-04-15T10:00:00",
+    "updated_at": "2026-04-15T10:00:00"
+  },
+  {
+    "id": "45ae52e4-94c7-4247-a698-9baf76354cf6",
+    "title": "Test12345",
+    "slug": "test12345",
+    "cover_glyph": "Test12345",
+    "cover_grad": "grad-c",
+    "kind": "Essay",
+    "tags": [
+      "SEO"
+    ],
+    "description": "Testabcde",
+    "content": "<p>lorem ipsem lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p><br></p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p>",
+    "published": true,
+    "created_at": "2026-05-15T09:35:55.228746",
+    "updated_at": "2026-05-15T09:36:38.533892"
+  }
+]

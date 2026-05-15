@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.env
+.venv
+venv/
+
+# Backups created by page editor
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (user media — keep folder, ignore files)
+uploads/*
+!uploads/.gitkeep
+
+# Scraps / napkin files
+scraps/

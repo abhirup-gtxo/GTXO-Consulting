@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}{{ meta.label }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / {{ meta.label }}</div>
+    <h1 class="page-title">{{ meta.label }}</h1>
+    <p class="page-sub">{{ items|length }} entr{{ 'ies' if items|length != 1 else 'y' }}</p>
+  </div>
+  <a href="/admin/cms/{{ ct }}/new" class="btn-primary">+ New {{ meta.label[:-1] if meta.label.endswith('s') else meta.label }}</a>
+</div>
+
+{% if items %}
+<div class="cms-table-wrap">
+  <table class="cms-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Kind</th>
+        <th>Tags</th>
+        <th>Status</th>
+        <th>Updated</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td class="td-title">
+          <span class="cover-dot {{ item.get('cover_grad','grad-a') }}"></span>
+          {{ item.title }}
+        </td>
+        <td class="td-meta">{{ item.get('kind','') }}</td>
+        <td class="td-tags">
+          {% for tag in item.get('tags',[]) %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </td>
+        <td>
+          <form action="/admin/cms/{{ ct }}/{{ item.id }}/toggle" method="post" style="display:inline">
+            <button type="submit" class="status-pill {{ 'published' if item.get('published') else 'draft' }}">
+              {{ 'Published' if item.get('published') else 'Draft' }}
+            </button>
+          </form>
+        </td>
+        <td class="td-date">{{ item.get('updated_at','')[:10] }}</td>
+        <td class="td-actions">
+          <a href="/admin/cms/{{ ct }}/{{ item.id }}/edit" class="action-btn">Edit</a>
+          <form action="/admin/cms/{{ ct }}/{{ item.id }}/delete" method="post" style="display:inline"
+                onsubmit="return confirm('Delete this entry?')">
+            <button type="submit" class="action-btn danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+  </div>
+  <p>No {{ meta.label|lower }} yet.</p>
+  <a href="/admin/cms/{{ ct }}/new" class="btn-primary">Create your first entry</a>
+</div>
+{% endif %}
+{% endblock %}

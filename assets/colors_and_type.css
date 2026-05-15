@@ -1,0 +1,292 @@
+/* =============================================================================
+   GROW 10X — Design Tokens
+   Colors, Type, Spacing, Radii, Shadows
+   ============================================================================= */
+
+/* ---------- FONTS ----------
+   Display + body sourced from Google Fonts.
+   Substitution note: brand reference does not specify exact font files. We use:
+     - Inter Tight (display + body) — clean geometric sans, matches the punchy
+       headline weight observed on grow10x.online
+     - Instrument Serif (italic emphasis words like "Growth Engine") — replicates
+       the bold-serif-italic emphasis treatment described in the brand guide
+     - JetBrains Mono (mono / numeric / code)
+   If the brand owns specific font licenses, drop the .ttf/.woff2 into /fonts and
+   override @font-face declarations below.
+*/
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  /* ============================================================
+     PALETTE — RAW
+     Source of truth. Pulled from the logo + brand voice doc.
+     ============================================================ */
+
+  /* Brand blue — the logo's electric blue square */
+  --gtxo-blue-50:  #eaf1ff;
+  --gtxo-blue-100: #cfddff;
+  --gtxo-blue-200: #9cb6ff;
+  --gtxo-blue-300: #6285ff;
+  --gtxo-blue-400: #2f5dff;
+  --gtxo-blue-500: #0f5ef7;   /* PRIMARY — sampled from logo cube */
+  --gtxo-blue-600: #0046d6;
+  --gtxo-blue-700: #0035a8;
+  --gtxo-blue-800: #00287a;
+  --gtxo-blue-900: #001a54;
+
+  /* Ink — the deep cube-shadow + near-black hero backgrounds */
+  --gtxo-ink-0:   #ffffff;
+  --gtxo-ink-50:  #f6f7fb;
+  --gtxo-ink-100: #ecedf2;
+  --gtxo-ink-200: #d6d8e0;
+  --gtxo-ink-300: #aeb1bd;
+  --gtxo-ink-400: #7c7f8c;
+  --gtxo-ink-500: #51545f;
+  --gtxo-ink-600: #34373f;
+  --gtxo-ink-700: #2d2d2d;   /* the logo's drop-shadow charcoal */
+  --gtxo-ink-800: #18181c;
+  --gtxo-ink-900: #0d0d2b;   /* hero dark / near-black */
+  --gtxo-ink-950: #06061a;
+
+  /* Energy gradient — orange → pink → magenta (top announcement bar) */
+  --gtxo-energy-orange:  #ff7a1a;
+  --gtxo-energy-pink:    #ff3da6;
+  --gtxo-energy-magenta: #c026d3;
+
+  /* Cyber gradient — cyan → violet (CTAs + emphasis text) */
+  --gtxo-cyber-cyan:   #22d3ee;
+  --gtxo-cyber-blue:   #3b82f6;
+  --gtxo-cyber-violet: #8b5cf6;
+
+  /* Semantic states */
+  --gtxo-success: #10b981;
+  --gtxo-warn:    #f59e0b;
+  --gtxo-danger:  #ef4444;
+  --gtxo-info:    var(--gtxo-blue-500);
+
+  /* ============================================================
+     GRADIENTS
+     Composed once, used everywhere.
+     ============================================================ */
+  --gradient-energy: linear-gradient(90deg, var(--gtxo-energy-orange) 0%, var(--gtxo-energy-pink) 55%, var(--gtxo-energy-magenta) 100%);
+  --gradient-cyber:  linear-gradient(135deg, var(--gtxo-cyber-cyan) 0%, var(--gtxo-cyber-blue) 50%, var(--gtxo-cyber-violet) 100%);
+  --gradient-blue-deep: linear-gradient(135deg, var(--gtxo-blue-500) 0%, var(--gtxo-blue-700) 100%);
+  --gradient-hero-dark: linear-gradient(180deg, var(--gtxo-ink-900) 0%, var(--gtxo-ink-950) 100%);
+
+  /* ============================================================
+     SEMANTIC COLOR TOKENS — light surface default
+     Use these in components, never the raw palette.
+     ============================================================ */
+  --bg:           var(--gtxo-ink-0);
+  --bg-elevated:  var(--gtxo-ink-0);
+  --bg-muted:     var(--gtxo-ink-50);
+  --bg-inverse:   var(--gtxo-ink-900);
+
+  --fg:           var(--gtxo-ink-900);   /* primary text */
+  --fg-secondary: var(--gtxo-ink-500);   /* secondary text */
+  --fg-muted:     var(--gtxo-ink-400);   /* hints / captions */
+  --fg-inverse:   var(--gtxo-ink-0);
+  --fg-accent:    var(--gtxo-blue-500);
+
+  --border:       var(--gtxo-ink-100);
+  --border-strong:var(--gtxo-ink-200);
+  --border-focus: var(--gtxo-blue-500);
+
+  --accent:       var(--gtxo-blue-500);
+  --accent-hover: var(--gtxo-blue-600);
+  --accent-press: var(--gtxo-blue-700);
+  --accent-fg:    var(--gtxo-ink-0);
+
+  /* ============================================================
+     TYPE — FAMILIES
+     ============================================================ */
+  --font-display: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body:    "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif:   "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ============================================================
+     TYPE — SCALE (fluid, 1.250 minor-third on display, 1.200 on body)
+     ============================================================ */
+  --fs-display-xl: clamp(3.5rem, 6vw + 1rem, 5.75rem);  /* hero */
+  --fs-display-lg: clamp(2.75rem, 4vw + 1rem, 4.25rem); /* section */
+  --fs-display-md: clamp(2.25rem, 2.4vw + 1rem, 3.25rem);
+  --fs-h1: 2.5rem;     /* 40 */
+  --fs-h2: 2rem;       /* 32 */
+  --fs-h3: 1.5rem;     /* 24 */
+  --fs-h4: 1.25rem;    /* 20 */
+  --fs-body-lg: 1.125rem; /* 18 */
+  --fs-body:    1rem;     /* 16 */
+  --fs-body-sm: 0.875rem; /* 14 */
+  --fs-caption: 0.75rem;  /* 12 — UPPERCASE eyebrows */
+
+  --lh-tight: 1.04;
+  --lh-snug:  1.18;
+  --lh-body:  1.55;
+  --lh-loose: 1.7;
+
+  --tracking-tight: -0.03em;   /* big display */
+  --tracking-snug:  -0.015em;
+  --tracking-body:   0;
+  --tracking-wide:   0.08em;   /* eyebrow caps */
+
+  /* ============================================================
+     SPACING — 4px base
+     ============================================================ */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4  */
+  --space-2: 0.5rem;   /* 8  */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.25rem;  /* 20 */
+  --space-6: 1.5rem;   /* 24 */
+  --space-8: 2rem;     /* 32 */
+  --space-10: 2.5rem;  /* 40 */
+  --space-12: 3rem;    /* 48 */
+  --space-16: 4rem;    /* 64 */
+  --space-20: 5rem;    /* 80 */
+  --space-24: 6rem;    /* 96 */
+  --space-32: 8rem;    /* 128 */
+
+  /* ============================================================
+     RADII — squarer than typical SaaS to match logo cube
+     ============================================================ */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ============================================================
+     ELEVATION — "cube" offset shadows mirror the logo's drop-shadow
+     ============================================================ */
+  --shadow-xs: 0 1px 2px rgba(13,13,43,0.06);
+  --shadow-sm: 0 2px 6px rgba(13,13,43,0.08);
+  --shadow-md: 0 8px 20px rgba(13,13,43,0.10);
+  --shadow-lg: 0 18px 40px rgba(13,13,43,0.14);
+  /* Signature: hard offset shadow ("cube stack") — used on featured cards / buttons */
+  --shadow-cube-sm: 4px 4px 0 0 var(--gtxo-ink-900);
+  --shadow-cube-md: 6px 6px 0 0 var(--gtxo-ink-900);
+  --shadow-cube-lg: 10px 10px 0 0 var(--gtxo-ink-900);
+  /* Blue cube — for inverse / hero use */
+  --shadow-cube-blue: 8px 8px 0 0 var(--gtxo-blue-500);
+
+  /* ============================================================
+     MOTION
+     ============================================================ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 360ms;
+
+  /* Layout */
+  --container: 1200px;
+  --container-narrow: 880px;
+}
+
+/* ---------- Dark surface variant (apply to .dark or [data-theme=dark]) ---------- */
+.dark, [data-theme="dark"] {
+  --bg:           var(--gtxo-ink-900);
+  --bg-elevated:  var(--gtxo-ink-800);
+  --bg-muted:     var(--gtxo-ink-800);
+  --bg-inverse:   var(--gtxo-ink-0);
+  --fg:           var(--gtxo-ink-0);
+  --fg-secondary: var(--gtxo-ink-200);
+  --fg-muted:     var(--gtxo-ink-300);
+  --fg-inverse:   var(--gtxo-ink-900);
+  --border:       rgba(255,255,255,0.10);
+  --border-strong:rgba(255,255,255,0.18);
+}
+
+/* =============================================================================
+   ELEMENT DEFAULTS — opt-in via class names, never globally applied
+   ============================================================================= */
+
+.gtxo-body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.gtxo-h1, .gtxo-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-xl);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+  text-wrap: balance;
+}
+.gtxo-h2, .gtxo-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-lg);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+.gtxo-h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-snug);
+}
+.gtxo-h4 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+}
+.gtxo-eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-secondary);
+}
+.gtxo-p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg-secondary);
+  text-wrap: pretty;
+}
+.gtxo-lead {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body);
+  color: var(--fg-secondary);
+  text-wrap: pretty;
+}
+.gtxo-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* The signature emphasis word — italic serif inside a sans headline.
+   Usage:  <h1 class="gtxo-h1">We drive your <span class="gtxo-emph">Growth Engine</span></h1>  */
+.gtxo-emph {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  /* slight optical lift for serif sitting next to sans */
+  background: var(--gradient-cyber);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+.gtxo-emph-plain {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
