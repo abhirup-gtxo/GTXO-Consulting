@@ -88,29 +88,25 @@
           <p class="lead">Not ready to book yet? Tell us about your situation and we'll reply within one business day.</p>
         </div>
 
-        <div data-fs-success style="display:none"></div>
-
-        <form class="contact-form" id="contact-form">
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/mdabqnkw" method="POST">
           <div class="form-row form-row-2">
             <div class="form-group">
               <label for="cf-name">Full name <span class="req">*</span></label>
-              <input id="cf-name" name="name" type="text" placeholder="Alex Johnson" required data-fs-field>
-              <span data-fs-error="name" class="form-field-error"></span>
+              <input id="cf-name" name="name" type="text" placeholder="Alex Johnson" required>
             </div>
             <div class="form-group">
               <label for="cf-email">Work email <span class="req">*</span></label>
-              <input id="cf-email" name="email" type="email" placeholder="alex@company.com" required data-fs-field>
-              <span data-fs-error="email" class="form-field-error"></span>
+              <input id="cf-email" name="email" type="email" placeholder="alex@company.com" required>
             </div>
           </div>
           <div class="form-row form-row-2">
             <div class="form-group">
               <label for="cf-company">Company</label>
-              <input id="cf-company" name="company" type="text" placeholder="Acme Inc." data-fs-field>
+              <input id="cf-company" name="company" type="text" placeholder="Acme Inc.">
             </div>
             <div class="form-group">
               <label for="cf-stage">Company stage</label>
-              <select id="cf-stage" name="stage" data-fs-field>
+              <select id="cf-stage" name="stage">
                 <option value="" disabled selected>Select stage…</option>
                 <option value="seed">Seed / Pre-revenue</option>
                 <option value="series-a">Series A (1–10M ARR)</option>
@@ -122,12 +118,10 @@
           </div>
           <div class="form-group">
             <label for="cf-message">What's the challenge? <span class="req">*</span></label>
-            <textarea id="cf-message" name="message" rows="5" placeholder="Give us the short version: current channels, biggest growth bottleneck, and what success looks like for you in 12 months." required data-fs-field></textarea>
-            <span data-fs-error="message" class="form-field-error"></span>
+            <textarea id="cf-message" name="message" rows="5" placeholder="Give us the short version: current channels, biggest growth bottleneck, and what success looks like for you in 12 months." required></textarea>
           </div>
-          <div data-fs-error class="form-error-banner" style="display:none"></div>
           <div class="form-footer">
-            <button type="submit" class="btn btn-primary btn-lg" data-fs-submit-btn>Send message &rarr;</button>
+            <button type="submit" class="btn btn-primary btn-lg" id="cf-submit">Send message &rarr;</button>
             <span class="form-privacy">We don't share your details. Ever.</span>
           </div>
         </form>
@@ -179,17 +173,31 @@
   <footer id="site-foot"></footer>
   <script src="assets/shell.js"></script>
   <script>
-    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-    formspree('initForm', { formElement: '#contact-form', formId: 'mdabqnkw' });
-
-    // Redirect to thank-you page on successful submission
-    const successEl = document.querySelector('[data-fs-success]');
-    new MutationObserver(function() {
-      if (successEl.style.display !== 'none') {
-        window.location.href = '/thank-you';
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('cf-submit');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          window.location.href = '/thank-you';
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = 'Send message &rarr;';
+          alert('Something went wrong. Please try again.');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.innerHTML = 'Send message &rarr;';
+        alert('Network error. Please check your connection and try again.');
       }
-    }).observe(successEl, { attributes: true, attributeFilter: ['style'] });
+    });
   </script>
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
