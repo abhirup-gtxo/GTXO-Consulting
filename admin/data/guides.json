@@ -16,21 +16,5 @@
     "updated_at": "2026-05-15T16:49:51.121591",
     "meta_title": "",
     "meta_description": ""
-  },
-  {
-    "id": "g1u2i3d4-0002-0000-0000-000000000002",
-    "title": "The 90-day GTM checklist for Series A",
-    "slug": "90-day-gtm-checklist-series-a",
-    "cover_glyph": "90-day GTM",
-    "cover_grad": "grad-a",
-    "kind": "Guide \u00b7 16 min",
-    "tags": [
-      "GTM"
-    ],
-    "description": "Every milestone, every miss-and-fix-it pattern we've seen.",
-    "content": "<h2>The GTM clock starts at term sheet</h2><p>Series A investors expect marketing to be a growth lever within 90 days. Most founders wait too long to hire, then hire wrong. This checklist fixes that.</p><h2>Week 1\u20132: Input</h2><p>Interview 20 customers. Listen for the exact words they use to describe their problem. Don't invent language \u2014 steal theirs. Map your ICP scoring rubric before you touch the website.</p><h2>Week 3\u20134: Write</h2><p>Positioning narrative. One page. If it takes more than one page you don't have clarity yet. Ship v1 to your best customer and ask: does this sound like you?</p><h2>Week 5\u20138: Ship</h2><p>Website, outbound sequence, one paid channel. Not all three at once \u2014 pick the highest-signal channel for your ICP and go deep. Measure weekly.</p><h2>Week 9\u201312: Scale</h2><p>Double down on what's working. Fire the channels that aren't by week eight \u2014 don't let them limp to week twelve.</p>",
-    "published": true,
-    "created_at": "2026-03-15T10:00:00",
-    "updated_at": "2026-03-15T10:00:00"
   }
 ]
