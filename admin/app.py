@@ -440,8 +440,8 @@ ARTICLE_TEMPLATE = """\
   <script src="../../assets/shell.js"></script>
   <style>
     .article-body h1,.article-body h2,.article-body h3{{margin-top:2em;margin-bottom:.5em;font-family:var(--font-display);}}
-    .article-body p{{margin-bottom:1.2em;line-height:1.75;}}
-    .article-body ul,.article-body ol{{margin-bottom:1.2em;padding-left:1.5em;}}
+    .article-body p{{margin:0;}}
+    .article-body ul,.article-body ol{{padding-left:1.5em;}}
     .article-body blockquote{{border-left:3px solid var(--gtxo-blue-500);padding-left:20px;color:var(--fg-secondary);font-style:italic;}}
     .article-body a{{color:var(--gtxo-blue-500);text-decoration:underline;}}
   </style>
