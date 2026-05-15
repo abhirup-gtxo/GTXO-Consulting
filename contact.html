@@ -88,7 +88,7 @@
           <p class="lead">Not ready to book yet? Tell us about your situation and we'll reply within one business day.</p>
         </div>
 
-        <form class="contact-form" action="https://formspree.io/f/xpwzgeev" method="POST">
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xpwzgeev" method="POST">
           <div class="form-row form-row-2">
             <div class="form-group">
               <label for="cf-name">Full name <span class="req">*</span></label>
@@ -172,5 +172,32 @@
   </main>
   <footer id="site-foot"></footer>
   <script src="assets/shell.js"></script>
+  <script>
+    const form = document.getElementById('contact-form');
+    const btn  = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          window.location.href = '/thank-you';
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = 'Send message &rarr;';
+          alert('Something went wrong. Please try again or email us directly.');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.innerHTML = 'Send message &rarr;';
+        alert('Network error. Please check your connection and try again.');
+      }
+    });
+  </script>
 </body>
 </html>
