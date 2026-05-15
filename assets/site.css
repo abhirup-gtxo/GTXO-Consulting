@@ -385,7 +385,7 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 .logo-cell {
   display: flex; align-items: center; justify-content: center;
-  padding: 32px 28px;
+  padding: 16px 20px;
 }
 .logo-cell img {
   height: 72px; width: auto; max-width: 160px;
@@ -398,6 +398,10 @@ h1, h2, h3, h4, p { margin: 0; }
 .logo-cell img[data-logo="ambee"]           { height: 101px; }
 .logo-cell img[data-logo="certinal"]        { height: 101px; }
 .logo-cell img[data-logo="sketchnote"]      { height: 200px; }
+.logo-cell img[data-logo="globemoving"]     { height: 108px; }
+.logo-cell img[data-logo="mintoak"]         { height: 108px; }
+.logo-cell img[data-logo="recurpost"]       { height: 108px; }
+.logo-cell img[data-logo="enthral-ai"]      { height: 108px; }
 
 /* Continuous-scroll logo marquee (home, "trusted by" strip) */
 .logo-marquee {
