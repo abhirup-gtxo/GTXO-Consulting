@@ -417,7 +417,7 @@ ARTICLE_TEMPLATE = """\
           <span>{title}</span>
         </div>
         <p class="eyebrow"><span class="dash"></span> {cover_label}</p>
-        <h1 class="display">{title}</h1>
+        <h1 class="display article-hero-title">{title}</h1>
         <p class="lead">{description}</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
           <span class="eyebrow pill">{kind}</span>
@@ -440,6 +440,7 @@ ARTICLE_TEMPLATE = """\
   <script src="../../assets/shell.js"></script>
   <style>
     .article-body h1,.article-body h2,.article-body h3{{margin-top:1.1em;margin-bottom:0.3em;font-family:var(--font-display);}}
+    .article-hero-title{{font-size:clamp(2.06rem,3.75vw + 0.75rem,3.75rem)!important;}}
     .article-body p{{margin:0 0 0.5em 0;line-height:1.45;}}
     .article-body ul,.article-body ol{{padding-left:1.5em;margin-bottom:0.5em;}}
     .article-body blockquote{{border-left:3px solid var(--gtxo-blue-500);padding-left:20px;color:var(--fg-secondary);font-style:italic;}}
