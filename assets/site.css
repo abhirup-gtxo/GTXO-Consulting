@@ -723,3 +723,205 @@ h1, h2, h3, h4, p { margin: 0; }
   .section { padding: 72px 0; }
   .hero { padding: 56px 0 72px; }
 }
+
+/* =====================================================================
+   CONTACT PAGE
+   ===================================================================== */
+
+/* Booking split layout */
+.contact-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.contact-cal .lead-sm,
+.contact-expect .lead-sm {
+  font-size: 16px;
+  color: var(--fg-secondary);
+  margin: 0 0 32px;
+  max-width: 480px;
+}
+
+/* Cal.com embed wrapper */
+.cal-embed-wrap {
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 520px;
+  background: var(--gtxo-ink-50);
+}
+
+/* What to expect steps */
+.expect-steps {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.expect-step {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.expect-step:first-child { padding-top: 0; }
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--emp-strong);
+  letter-spacing: .06em;
+  min-width: 28px;
+  padding-top: 3px;
+}
+.step-body { flex: 1; }
+.step-body strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+.step-body p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--fg-secondary);
+  line-height: 1.6;
+}
+.expect-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 20px;
+  background: var(--emp-soft);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+.expect-note-icon {
+  color: var(--emp-strong);
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Contact form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-row { display: grid; gap: 20px; }
+.form-row-2 { grid-template-columns: 1fr 1fr; }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: .01em;
+}
+.form-group .req { color: var(--emp-strong); }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--fg);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
+  width: 100%;
+}
+.form-group select { appearance: none; cursor: pointer; }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--emp-strong);
+  box-shadow: 0 0 0 3px rgba(15,94,247,.12);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--fg-muted); }
+.form-group textarea { resize: vertical; min-height: 140px; }
+.form-footer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.form-privacy {
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+/* FAQ section */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.faq-item {
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.faq-item:first-child { border-top: 1px solid rgba(255,255,255,.1); }
+.faq-q {
+  list-style: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  padding: 22px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  user-select: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 300;
+  color: rgba(255,255,255,.4);
+  flex-shrink: 0;
+  transition: transform 200ms var(--ease-out), color 200ms;
+}
+.faq-item[open] .faq-q::after {
+  transform: rotate(45deg);
+  color: var(--emp-strong);
+}
+.faq-a {
+  padding: 0 0 24px;
+}
+.faq-a p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,.72);
+}
+.faq-a a {
+  color: var(--gtxo-blue-300);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .contact-split { gap: 40px; }
+}
+@media (max-width: 720px) {
+  .contact-split { grid-template-columns: 1fr; gap: 48px; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  .cal-embed-wrap { min-height: 580px; }
+}
