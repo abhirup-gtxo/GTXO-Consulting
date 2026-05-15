@@ -1,10 +1,86 @@
 [
-  {"id": "logo-0001", "filename": "wonderlend-hubs.png", "alt": "Wonderlend Hubs", "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0002", "filename": "gush.png",             "alt": "Gush",            "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0003", "filename": "xobin.png",            "alt": "Xobin",           "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0004", "filename": "shopflo.png",          "alt": "Shopflo",         "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0005", "filename": "lythouse.png",         "alt": "Lythouse",        "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0006", "filename": "ambee.png",            "alt": "Ambee",           "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0007", "filename": "certinal.png",         "alt": "Certinal",        "active": true, "created_at": "2026-01-01T00:00:00"},
-  {"id": "logo-0008", "filename": "sketchnote.png",       "alt": "Sketchnote",      "active": true, "created_at": "2026-01-01T00:00:00"}
+  {
+    "id": "logo-0001",
+    "filename": "wonderlend-hubs.png",
+    "alt": "Wonderlend Hubs",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0002",
+    "filename": "gush.png",
+    "alt": "Gush",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0003",
+    "filename": "xobin.png",
+    "alt": "Xobin",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0004",
+    "filename": "shopflo.png",
+    "alt": "Shopflo",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0005",
+    "filename": "lythouse.png",
+    "alt": "Lythouse",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0006",
+    "filename": "ambee.png",
+    "alt": "Ambee",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0007",
+    "filename": "certinal.png",
+    "alt": "Certinal",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "logo-0008",
+    "filename": "sketchnote.png",
+    "alt": "Sketchnote",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "867b52e6-4ff7-402a-a8f9-3ff32866a511",
+    "filename": "globemoving.png",
+    "alt": "Globemoving",
+    "active": true,
+    "created_at": "2026-05-15T12:25:25.918259"
+  },
+  {
+    "id": "9bdcd895-269a-47f0-94f6-3e4dd73a74fd",
+    "filename": "recurpost.png",
+    "alt": "Recurpost",
+    "active": true,
+    "created_at": "2026-05-15T12:28:30.326605"
+  },
+  {
+    "id": "92bc66a6-d69a-40aa-a6e6-ee34eb800e6c",
+    "filename": "enthral-ai.png",
+    "alt": "Enthral AI",
+    "active": true,
+    "created_at": "2026-05-15T12:29:17.117053"
+  },
+  {
+    "id": "7ba9cda2-5c99-433f-87a7-a5d0d0765246",
+    "filename": "mintoak.jpg",
+    "alt": "mintOak",
+    "active": true,
+    "created_at": "2026-05-15T12:37:55.934303"
+  }
 ]
