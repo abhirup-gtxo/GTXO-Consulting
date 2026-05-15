@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / Testimonials</div>
+    <h1 class="page-title">Testimonials</h1>
+    <p class="page-sub">{{ items|length }} entr{{ 'ies' if items|length != 1 else 'y' }} · active ones appear on the site automatically</p>
+  </div>
+  <a href="/admin/testimonials/new" class="btn-primary">+ Add Testimonial</a>
+</div>
+
+{% if items %}
+<div class="cms-table-wrap">
+  <table class="cms-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Company</th>
+        <th>Testimonial</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td class="td-title">
+          <span class="t-avatar-mini">{{ item.name.split()|map('first')|join('') }}</span>
+          {{ item.name }}
+        </td>
+        <td class="td-meta">{{ item.designation }}</td>
+        <td class="td-meta">{{ item.company }}</td>
+        <td class="td-desc">{{ item.testimonial[:90] }}{% if item.testimonial|length > 90 %}…{% endif %}</td>
+        <td>
+          <form action="/admin/testimonials/{{ item.id }}/toggle" method="post" style="display:inline">
+            <button type="submit" class="status-pill {{ 'published' if item.get('active') else 'draft' }}">
+              {{ 'Active' if item.get('active') else 'Hidden' }}
+            </button>
+          </form>
+        </td>
+        <td class="td-actions">
+          <a href="/admin/testimonials/{{ item.id }}/edit" class="action-btn">Edit</a>
+          <form action="/admin/testimonials/{{ item.id }}/delete" method="post" style="display:inline"
+                onsubmit="return confirm('Delete this testimonial?')">
+            <button type="submit" class="action-btn danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </div>
+  <p>No testimonials yet.</p>
+  <a href="/admin/testimonials/new" class="btn-primary">Add your first testimonial</a>
+</div>
+{% endif %}
+{% endblock %}

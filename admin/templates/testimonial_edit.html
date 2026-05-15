@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'New' }} Testimonial{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / <a href="/admin/testimonials">Testimonials</a> / {{ 'Edit' if item else 'New' }}</div>
+    <h1 class="page-title">{{ 'Edit Testimonial' if item else 'Add Testimonial' }}</h1>
+  </div>
+</div>
+
+<form method="post" class="edit-form">
+  <div class="form-grid-2">
+    <div class="field">
+      <label>Full Name *</label>
+      <input name="name" type="text" required placeholder="e.g. Sarah Maliki"
+             value="{{ item.name if item else '' }}">
+    </div>
+    <div class="field">
+      <label>Designation *</label>
+      <input name="designation" type="text" required placeholder="e.g. VP Marketing"
+             value="{{ item.designation if item else '' }}">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Company *</label>
+    <input name="company" type="text" required placeholder="e.g. Lattice (Series C)"
+           value="{{ item.company if item else '' }}">
+  </div>
+
+  <div class="field">
+    <label>Testimonial *</label>
+    <textarea name="testimonial" rows="5" required
+              placeholder="What did they say? Write it in their voice — no fluff.">{{ item.testimonial if item else '' }}</textarea>
+    <span class="field-hint">Plain text. Don't add opening/closing quotes — they're added automatically on the site.</span>
+  </div>
+
+  <div class="field field-checkbox">
+    <label class="checkbox-label">
+      <input type="checkbox" name="active" value="on" {{ 'checked' if (item is none or item.get('active', true)) else '' }}>
+      <span>Show on site</span>
+    </label>
+    <span class="field-hint">Active testimonials appear on the homepage (first 3) and the full Clients page.</span>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary">{{ 'Save changes' if item else 'Add testimonial' }}</button>
+    <a href="/admin/testimonials" class="btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}

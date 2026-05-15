@@ -689,3 +689,16 @@ body {
 .ql-container { font-family: var(--font) !important; font-size: 14px !important; }
 .ql-toolbar { border-color: var(--border) !important; background: var(--bg); }
 .ql-container.ql-snow { border-color: var(--border) !important; }
+
+/* ── Testimonials ─────────────────────────────────────────── */
+.t-avatar-mini {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+  vertical-align: middle; margin-right: 8px;
+}
+.td-desc {
+  max-width: 280px; color: var(--fg-secondary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "t-0001-0000-0000-0000-000000000001",
+    "name": "Sarah Maliki",
+    "designation": "VP Marketing",
+    "company": "Lattice (Series C)",
+    "testimonial": "They didn’t pitch us a strategy. They were our strategy team for nine months — in standups, owning targets, on the hook for the number.",
+    "active": true,
+    "created_at": "2026-01-01T00:00:00",
+    "updated_at": "2026-01-01T00:00:00"
+  },
+  {
+    "id": "t-0002-0000-0000-0000-000000000002",
+    "name": "Daniel Reyes",
+    "designation": "Founder",
+    "company": "Vellum (D2C beverages)",
+    "testimonial": "Our CAC dropped 41% in the first quarter. They rebuilt the creative engine and the landing page in week one. We’ve never moved that fast.",
+    "active": true,
+    "created_at": "2026-03-01T00:00:00",
+    "updated_at": "2026-03-01T00:00:00"
+  },
+  {
+    "id": "t-0003-0000-0000-0000-000000000003",
+    "name": "Priya Anand",
+    "designation": "CMO",
+    "company": "Stitchpad (B2B SaaS)",
+    "testimonial": "We were getting cited by ChatGPT inside six weeks. That changed how the board talks about marketing — it’s a revenue line now, not a cost line.",
+    "active": true,
+    "created_at": "2026-02-01T00:00:00",
+    "updated_at": "2026-02-01T00:00:00"
+  },
+  {
+    "id": "t-0004-0000-0000-0000-000000000004",
+    "name": "Jay Lin",
+    "designation": "Head of Growth",
+    "company": "Stack",
+    "testimonial": "The only paid partner I’ve worked with who came to the table with a P&L view. 3.6× pipeline ROI by quarter two — receipts attached.",
+    "active": true,
+    "created_at": "2026-04-01T00:00:00",
+    "updated_at": "2026-04-01T00:00:00"
+  },
+  {
+    "id": "t-0005-0000-0000-0000-000000000005",
+    "name": "Aisha Thomas",
+    "designation": "CMO",
+    "company": "Pacer",
+    "testimonial": "They didn’t ask for more budget. They made the existing budget work. CPA halved before we ever discussed scaling spend.",
+    "active": true,
+    "created_at": "2026-02-01T00:00:00",
+    "updated_at": "2026-02-01T00:00:00"
+  },
+  {
+    "id": "t-0006-0000-0000-0000-000000000006",
+    "name": "Kenji Watanabe",
+    "designation": "Founder & CEO",
+    "company": "Forge",
+    "testimonial": "Felt like hiring a CMO and a creative team in week one. Lean enough to operate, senior enough to challenge us. The standard.",
+    "active": true,
+    "created_at": "2026-05-01T00:00:00",
+    "updated_at": "2026-05-01T00:00:00"
+  },
+  {
+    "id": "t-0007-0000-0000-0000-000000000007",
+    "name": "Elena Bianchi",
+    "designation": "VP Growth",
+    "company": "Mercury",
+    "testimonial": "Programmatic SEO that wasn’t slop. They cared about every page like a human had written it. 147% organic traffic by month five.",
+    "active": true,
+    "created_at": "2025-12-01T00:00:00",
+    "updated_at": "2025-12-01T00:00:00"
+  },
+  {
+    "id": "t-0008-0000-0000-0000-000000000008",
+    "name": "Marcus Adeyemi",
+    "designation": "Founder",
+    "company": "Northwind",
+    "testimonial": "They built us an internal lead-scoring tool in three days. Our previous agency had been ‘scoping’ it for six months.",
+    "active": true,
+    "created_at": "2026-04-01T00:00:00",
+    "updated_at": "2026-04-01T00:00:00"
+  },
+  {
+    "id": "t-0009-0000-0000-0000-000000000009",
+    "name": "Rachel Chen",
+    "designation": "CMO",
+    "company": "Hyperline",
+    "testimonial": "What I love: they tell you when something isn’t working. No retainer protection. They’d rather lose the line item than waste your money.",
+    "active": true,
+    "created_at": "2026-03-01T00:00:00",
+    "updated_at": "2026-03-01T00:00:00"
+  }
+]

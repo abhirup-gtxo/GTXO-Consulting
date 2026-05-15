@@ -526,6 +526,152 @@ def _rebuild_resource_page(ct):
 
     _write_file(repo_path, str(soup), f'CMS: rebuild {ct} listing')
 
+# ── Testimonials data helpers ─────────────────────────────────────────────────
+
+TESTIMONIALS_PATH = 'admin/data/testimonials.json'
+
+def load_testimonials():
+    if USE_GITHUB:
+        content, _ = _gh_get(TESTIMONIALS_PATH)
+        return json.loads(content) if content else []
+    p = DATA_DIR / 'testimonials.json'
+    if not p.exists():
+        return []
+    with open(p) as f:
+        return json.load(f)
+
+def save_testimonials(data):
+    content = json.dumps(data, indent=2, ensure_ascii=False)
+    if USE_GITHUB:
+        _, sha = _gh_get(TESTIMONIALS_PATH)
+        _gh_put(TESTIMONIALS_PATH, content, 'Testimonials: update', sha)
+    else:
+        with open(DATA_DIR / 'testimonials.json', 'w') as f:
+            f.write(content)
+
+def _initials(name):
+    parts = name.split()
+    return ''.join(p[0].upper() for p in parts if p)[:2]
+
+def _t_card_html(item):
+    from html import escape
+    name   = escape(item.get('name', ''))
+    desg   = escape(item.get('designation', ''))
+    co     = escape(item.get('company', ''))
+    quote  = escape(item.get('testimonial', ''))
+    tid    = item.get('id', '')
+    initls = _initials(item.get('name', ''))
+    return (
+        f'\n    <div class="t-card" data-tid="{tid}">'
+        f'\n      <div class="t-head">'
+        f'\n        <div class="t-avatar">{initls}</div>'
+        f'\n        <div>'
+        f'\n          <div class="t-name">{name}</div>'
+        f'\n          <div class="t-role">{desg} · {co}</div>'
+        f'\n        </div>'
+        f'\n      </div>'
+        f'\n      <p class="t-quote">&#x201C;{quote}&#x201D;</p>'
+        f'\n    </div>'
+    )
+
+def _rebuild_testimonials():
+    items = [i for i in load_testimonials() if i.get('active')]
+
+    # index.html — show first 3 active testimonials
+    _inject_tgrid('index.html', items[:3])
+    # clients.html — show all active testimonials
+    _inject_tgrid('clients.html', items)
+
+def _inject_tgrid(repo_path, items):
+    html = _read_file(repo_path)
+    if not html:
+        return
+    soup = BeautifulSoup(html, 'lxml')
+    grid = soup.select_one('.tgrid')
+    if not grid:
+        return
+    grid.clear()
+    if items:
+        cards_html = ''.join(_t_card_html(i) for i in items) + '\n    '
+        frag = BeautifulSoup(cards_html, 'html.parser')
+        for child in list(frag.children):
+            grid.append(child)
+    else:
+        grid.append(BeautifulSoup('<p class="lead" style="color:var(--fg-secondary);padding:40px 0;">No testimonials yet.</p>', 'html.parser'))
+    _write_file(repo_path, str(soup), f'Testimonials: rebuild {repo_path}')
+
+# ── Testimonial routes ────────────────────────────────────────────────────────
+
+@app.route('/admin/testimonials')
+@login_required
+def testimonials_list():
+    items = load_testimonials()
+    return render_template('testimonials.html', items=items)
+
+@app.route('/admin/testimonials/new', methods=['GET', 'POST'])
+@login_required
+def testimonial_new():
+    if request.method == 'POST':
+        items = load_testimonials()
+        now = datetime.utcnow().isoformat()
+        item = {
+            'id':          str(uuid.uuid4()),
+            'name':        request.form.get('name', '').strip(),
+            'designation': request.form.get('designation', '').strip(),
+            'company':     request.form.get('company', '').strip(),
+            'testimonial': request.form.get('testimonial', '').strip(),
+            'active':      request.form.get('active') == 'on',
+            'created_at':  now,
+            'updated_at':  now,
+        }
+        items.append(item)
+        save_testimonials(items)
+        _rebuild_testimonials()
+        flash('Testimonial added and site updated', 'success')
+        return redirect(url_for('testimonials_list'))
+    return render_template('testimonial_edit.html', item=None)
+
+@app.route('/admin/testimonials/<item_id>/edit', methods=['GET', 'POST'])
+@login_required
+def testimonial_edit(item_id):
+    items = load_testimonials()
+    item = next((i for i in items if i['id'] == item_id), None)
+    if item is None:
+        abort(404)
+    if request.method == 'POST':
+        item['name']        = request.form.get('name', '').strip()
+        item['designation'] = request.form.get('designation', '').strip()
+        item['company']     = request.form.get('company', '').strip()
+        item['testimonial'] = request.form.get('testimonial', '').strip()
+        item['active']      = request.form.get('active') == 'on'
+        item['updated_at']  = datetime.utcnow().isoformat()
+        save_testimonials(items)
+        _rebuild_testimonials()
+        flash('Saved and site updated', 'success')
+        return redirect(url_for('testimonials_list'))
+    return render_template('testimonial_edit.html', item=item)
+
+@app.route('/admin/testimonials/<item_id>/delete', methods=['POST'])
+@login_required
+def testimonial_delete(item_id):
+    items = [i for i in load_testimonials() if i['id'] != item_id]
+    save_testimonials(items)
+    _rebuild_testimonials()
+    flash('Deleted and site updated', 'success')
+    return redirect(url_for('testimonials_list'))
+
+@app.route('/admin/testimonials/<item_id>/toggle', methods=['POST'])
+@login_required
+def testimonial_toggle(item_id):
+    items = load_testimonials()
+    for i in items:
+        if i['id'] == item_id:
+            i['active'] = not i.get('active', True)
+            i['updated_at'] = datetime.utcnow().isoformat()
+    save_testimonials(items)
+    _rebuild_testimonials()
+    return redirect(url_for('testimonials_list'))
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _slugify(text):
