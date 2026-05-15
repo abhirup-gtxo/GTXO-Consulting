@@ -562,21 +562,18 @@ def _t_card_html(item):
     tid    = item.get('id', '')
     initls = _initials(item.get('name', ''))
 
-    # Split on blank lines → paragraphs; preserve single line breaks within a paragraph
+    # Build quote: each line → display:block span; blank lines add a gap class
     raw = item.get('testimonial', '').replace('\r\n', '\n').strip()
     blocks = re.split(r'\n{2,}', raw)
-    paras = []
-    for block in blocks:
-        block = block.strip()
-        if not block:
-            continue
+    spans = []
+    for b_idx, block in enumerate(blocks):
         lines = [escape(l.strip()) for l in block.split('\n') if l.strip()]
-        paras.append('<br>'.join(lines))
-    # Wrap first paragraph with opening curly quote
-    if paras:
-        paras[0] = '&#x201C;' + paras[0]
-        paras[-1] = paras[-1] + '&#x201D;'
-    quote_html = ''.join(f'<p>{p}</p>' for p in paras)
+        last_block = (b_idx == len(blocks) - 1)
+        for l_idx, line in enumerate(lines):
+            last_in_block = (l_idx == len(lines) - 1)
+            gap = ' tl-gap' if last_in_block and not last_block else ''
+            spans.append(f'<span class="tl{gap}">{line}</span>')
+    quote_html = '&#x201C;' + ''.join(spans) + '&#x201D;'
 
     return (
         f'\n    <div class="t-card" data-tid="{tid}">'
@@ -587,7 +584,7 @@ def _t_card_html(item):
         f'\n          <div class="t-role">{desg} · {co}</div>'
         f'\n        </div>'
         f'\n      </div>'
-        f'\n      <div class="t-quote">{quote_html}</div>'
+        f'\n      <p class="t-quote">{quote_html}</p>'
         f'\n    </div>'
     )
 
