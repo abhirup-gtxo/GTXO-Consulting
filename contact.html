@@ -121,11 +121,13 @@
             <label for="cf-message">What's the challenge? <span class="req">*</span></label>
             <textarea id="cf-message" name="message" rows="5" placeholder="Give us the short version: current channels, biggest growth bottleneck, and what success looks like for you in 12 months." required></textarea>
           </div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADP9EYMiIo3m-Nio" data-theme="light"></div>
           <div class="form-footer">
             <button type="submit" class="btn btn-primary btn-lg" id="cf-submit">Send message &rarr;</button>
             <span class="form-privacy">We don't share your details. Ever.</span>
           </div>
         </form>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
       </div>
     </section>
 
@@ -186,10 +188,10 @@
       const label   = company ? name + ' · ' + company : name;
       document.getElementById('cf-subject').value = 'New lead: ' + label;
       try {
-        const res = await fetch(form.action, {
+        const res = await fetch('/api/contact', {
           method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
         });
         if (res.ok) {
           window.location.href = '/thank-you';
