@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup, NavigableString
 sys.path.insert(0, str(Path(__file__).parent))
 from content_maps import PAGES
 
-app = Flask(__name__, template_folder='templates', static_folder='static')
+app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/admin/static')
 app.secret_key = os.environ.get('SECRET_KEY', 'gtxo-admin-2026-secret')
 
 SITE_ROOT  = Path(__file__).parent.parent
