@@ -32,21 +32,5 @@
     "published": true,
     "created_at": "2026-04-15T10:00:00",
     "updated_at": "2026-04-15T10:00:00"
-  },
-  {
-    "id": "45ae52e4-94c7-4247-a698-9baf76354cf6",
-    "title": "Test12345",
-    "slug": "test12345",
-    "cover_glyph": "Test12345",
-    "cover_grad": "grad-c",
-    "kind": "Essay",
-    "tags": [
-      "SEO"
-    ],
-    "description": "Testabcde",
-    "content": "<p>lorem ipsem lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p><br></p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p><p>lorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsemlorem ipsem</p>",
-    "published": true,
-    "created_at": "2026-05-15T09:35:55.228746",
-    "updated_at": "2026-05-15T09:36:38.533892"
   }
 ]
