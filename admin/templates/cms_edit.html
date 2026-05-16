@@ -47,6 +47,17 @@
 
         <div class="field">
           <label>Body Content</label>
+          <div id="img-action-bar">
+            <span class="iab-label">Image:</span>
+            <button type="button" data-align="left">◀ Left</button>
+            <button type="button" data-align="center">■ Center</button>
+            <button type="button" data-align="right">▶ Right</button>
+            <span class="iab-sep"></span>
+            <button type="button" data-resize="0.85">− Smaller</button>
+            <span id="img-w-lbl">—</span>
+            <button type="button" data-resize="1.15">+ Larger</button>
+            <button type="button" id="img-full-btn">⟷ Full width</button>
+          </div>
           <div id="quill-editor" style="height:420px;">{{ item.content|safe if item else '' }}</div>
           <input type="hidden" name="content" id="content-input">
         </div>
@@ -148,35 +159,220 @@
 
 {% block scripts %}
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<style>
+#draft-banner {
+  display:none;background:#1e3a5f;color:#93c5fd;border:1px solid #2563eb;
+  border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:13px;
+  display:flex;align-items:center;gap:12px;
+}
+#draft-banner span { flex:1; }
+#draft-banner button { padding:4px 12px;border-radius:5px;border:none;cursor:pointer;font-size:13px; }
+#draft-restore { background:#2563eb;color:#fff; }
+#draft-discard { background:#334155;color:#cbd5e1; }
+#autosave-indicator {
+  position:fixed;bottom:24px;left:24px;font-size:12px;color:#64748b;
+  pointer-events:none;opacity:0;transition:opacity .4s;
+}
+</style>
+<div id="draft-banner" style="display:none">
+  <span>You have a saved draft for this entry — restore it?</span>
+  <button id="draft-restore">Restore</button>
+  <button id="draft-discard">Discard</button>
+</div>
+<div id="autosave-indicator">Draft saved</div>
+<style>
+#upload-toast {
+  position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;
+  padding:10px 18px;border-radius:8px;font-size:13px;z-index:9999;display:none;
+}
+#img-action-bar {
+  display:none;background:#1e293b;border-radius:6px 6px 0 0;
+  padding:6px 12px;align-items:center;gap:4px;user-select:none;flex-wrap:wrap;
+  border-bottom:1px solid #334155;
+}
+#img-action-bar.active { display:flex; }
+#img-action-bar .iab-label { color:#64748b;font-size:12px;margin-right:4px; }
+#img-action-bar button {
+  background:none;border:none;color:#cbd5e1;cursor:pointer;
+  font-size:13px;padding:3px 9px;border-radius:4px;line-height:1;
+}
+#img-action-bar button:hover { background:#334155;color:#fff; }
+#img-action-bar .iab-sep { width:1px;height:16px;background:#334155;margin:0 4px;display:inline-block; }
+#img-w-lbl { color:#64748b;font-size:12px;min-width:50px;text-align:center; }
+</style>
+<div id="upload-toast">Uploading image…</div>
+
 <script>
+/* ── Image upload ── */
+function imageUploadHandler() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/png,image/jpeg,image/gif,image/webp,image/svg+xml';
+  input.click();
+  input.onchange = function() {
+    var file = input.files[0];
+    if (!file) return;
+    var toast = document.getElementById('upload-toast');
+    toast.style.display = 'block';
+    var fd = new FormData();
+    fd.append('image', file);
+    fetch('/admin/upload', { method:'POST', body:fd })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        toast.style.display = 'none';
+        if (d.url) {
+          var range = quill.getSelection(true);
+          quill.insertEmbed(range ? range.index : 0, 'image', d.url);
+        } else { alert('Upload failed: ' + (d.error||'unknown')); }
+      })
+      .catch(function(){ toast.style.display='none'; alert('Upload failed.'); });
+  };
+}
+
+/* ── Init Quill ── */
 var quill = new Quill('#quill-editor', {
   theme: 'snow',
   modules: {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'blockquote', 'code-block'],
-      ['clean']
-    ]
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ align: [] }],
+        ['link', 'blockquote', 'code-block'],
+        ['image'],
+        ['clean']
+      ],
+      handlers: { image: imageUploadHandler }
+    }
   }
 });
 
-// Auto-populate slug from title if slug is empty
-const titleInput = document.querySelector('input[name="title"]');
-const slugInput  = document.getElementById('slug-input');
+/* ── Image action bar ── */
+var selectedImg  = null;
+var imgActionBar = document.getElementById('img-action-bar');
+var imgWLbl      = document.getElementById('img-w-lbl');
+
+function selectImg(img) {
+  selectedImg = img;
+  imgActionBar.classList.add('active');
+  imgWLbl.textContent = Math.round(img.offsetWidth) + 'px';
+}
+function deselectImg() {
+  selectedImg = null;
+  imgActionBar.classList.remove('active');
+}
+
+imgActionBar.querySelectorAll('[data-align]').forEach(function(btn) {
+  btn.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    if (!selectedImg) return;
+    var a = btn.dataset.align;
+    if (a === 'left')   { selectedImg.style.cssFloat='left';  selectedImg.style.display='';      selectedImg.style.margin='4px 16px 8px 0'; }
+    if (a === 'center') { selectedImg.style.cssFloat='none';  selectedImg.style.display='block'; selectedImg.style.margin='8px auto'; }
+    if (a === 'right')  { selectedImg.style.cssFloat='right'; selectedImg.style.display='';      selectedImg.style.margin='4px 0 8px 16px'; }
+  });
+});
+
+imgActionBar.querySelectorAll('[data-resize]').forEach(function(btn) {
+  btn.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    if (!selectedImg) return;
+    var factor = parseFloat(btn.dataset.resize);
+    var maxW = quill.root.offsetWidth - 32;
+    selectedImg.style.width  = Math.round(Math.min(maxW, Math.max(40, selectedImg.offsetWidth * factor))) + 'px';
+    selectedImg.style.height = 'auto';
+    imgWLbl.textContent = Math.round(selectedImg.offsetWidth) + 'px';
+  });
+});
+
+document.getElementById('img-full-btn').addEventListener('mousedown', function(e) {
+  e.preventDefault();
+  if (!selectedImg) return;
+  selectedImg.style.width='100%'; selectedImg.style.height='auto';
+  selectedImg.style.cssFloat='none'; selectedImg.style.display='block'; selectedImg.style.margin='8px 0';
+  imgWLbl.textContent = Math.round(selectedImg.offsetWidth) + 'px';
+});
+
+quill.root.addEventListener('click', function(e) {
+  if (e.target.tagName === 'IMG') { selectImg(e.target); }
+  else { deselectImg(); }
+});
+
+/* ── Slug auto-fill ── */
+var titleInput = document.querySelector('input[name="title"]');
+var slugInput  = document.getElementById('slug-input');
 titleInput.addEventListener('input', function() {
-  if (!slugInput.dataset.manual) {
+  if (!slugInput.dataset.manual)
     slugInput.value = titleInput.value.toLowerCase()
       .replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
-  }
 });
-slugInput.addEventListener('input', function() {
-  slugInput.dataset.manual = '1';
+slugInput.addEventListener('input', function() { slugInput.dataset.manual = '1'; });
+
+/* ── Submit ── */
+document.getElementById('cms-form').addEventListener('submit', function() {
+  document.getElementById('content-input').value = quill.root.innerHTML;
+  localStorage.removeItem(DRAFT_KEY);
 });
 
-document.getElementById('cms-form').addEventListener('submit', function(e) {
-  document.getElementById('content-input').value = quill.root.innerHTML;
-});
+/* ── Autosave ── */
+var DRAFT_KEY = 'cms-draft-{{ ct }}-{{ item.id if item else "new" }}';
+var DRAFT_FIELDS = ['title','description','cover_glyph','kind','tags','slug','meta_title','meta_description'];
+var autosaveIndicator = document.getElementById('autosave-indicator');
+
+function saveDraft() {
+  var data = { content: quill.root.innerHTML, _ts: Date.now() };
+  DRAFT_FIELDS.forEach(function(n) {
+    var el = document.querySelector('[name="' + n + '"]');
+    if (el) data[n] = el.value;
+  });
+  var pubCb = document.querySelector('[name="published"]');
+  if (pubCb) data.published = pubCb.checked;
+  var gradEl = document.querySelector('[name="cover_grad"]:checked');
+  if (gradEl) data.cover_grad = gradEl.value;
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    autosaveIndicator.style.opacity = '1';
+    setTimeout(function(){ autosaveIndicator.style.opacity = '0'; }, 1500);
+  } catch(e) {}
+}
+
+function restoreDraft(data) {
+  if (data.content) quill.root.innerHTML = data.content;
+  DRAFT_FIELDS.forEach(function(n) {
+    var el = document.querySelector('[name="' + n + '"]');
+    if (el && data[n] !== undefined) el.value = data[n];
+  });
+  var pubCb = document.querySelector('[name="published"]');
+  if (pubCb && data.published !== undefined) pubCb.checked = data.published;
+  if (data.cover_grad) {
+    var gradEl = document.querySelector('[name="cover_grad"][value="' + data.cover_grad + '"]');
+    if (gradEl) gradEl.checked = true;
+  }
+}
+
+(function checkDraft() {
+  try {
+    var raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    var banner = document.getElementById('draft-banner');
+    banner.style.display = 'flex';
+    document.getElementById('draft-restore').addEventListener('click', function() {
+      restoreDraft(data);
+      banner.style.display = 'none';
+    });
+    document.getElementById('draft-discard').addEventListener('click', function() {
+      localStorage.removeItem(DRAFT_KEY);
+      banner.style.display = 'none';
+    });
+  } catch(e) {}
+})();
+
+setInterval(saveDraft, 10000);
+
+/* also save on any field change */
+document.getElementById('cms-form').addEventListener('input', saveDraft);
+document.getElementById('cms-form').addEventListener('change', saveDraft);
 </script>
 {% endblock %}

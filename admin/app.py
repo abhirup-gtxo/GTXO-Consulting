@@ -13,6 +13,7 @@ from pathlib import Path
 import requests
 from flask import (Flask, render_template, request, redirect, url_for,
                    session, jsonify, send_from_directory, abort, flash)
+from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup, NavigableString
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -20,6 +21,8 @@ from content_maps import PAGES
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/admin/static')
 app.secret_key = os.environ.get('SECRET_KEY', 'gtxo-admin-2026-secret')
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB total request
+app.config['MAX_FORM_MEMORY_SIZE'] = 50 * 1024 * 1024  # 50 MB per form field (Werkzeug 3.x default is 500 KB)
 
 SITE_ROOT  = Path(__file__).parent.parent
 ADMIN_ROOT = Path(__file__).parent
@@ -373,6 +376,25 @@ def api_article(ct, item_id):
     if not item:
         abort(404)
     return jsonify(item)
+
+# ── Image upload ──────────────────────────────────────────────────────────────
+
+ALLOWED_IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'}
+
+@app.route('/admin/upload', methods=['POST'])
+@login_required
+def upload_image():
+    file = request.files.get('image')
+    if not file or not file.filename:
+        return jsonify({'error': 'No file provided'}), 400
+    ext = Path(file.filename).suffix.lower()
+    if ext not in ALLOWED_IMAGE_EXTS:
+        return jsonify({'error': f'File type {ext} not allowed'}), 400
+    filename = uuid.uuid4().hex + ext
+    upload_dir = SITE_ROOT / 'uploads'
+    upload_dir.mkdir(exist_ok=True)
+    file.save(str(upload_dir / filename))
+    return jsonify({'url': f'/uploads/{filename}'})
 
 # ── Static site passthrough (local only) ─────────────────────────────────────
 
