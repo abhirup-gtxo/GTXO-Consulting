@@ -1,194 +1,177 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Contact · Grow10x</title>
-  <link rel="stylesheet" href="assets/site.css">
-  <!-- Calendly embed -->
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-  <script src="https://assets.calendly.com/assets/external/widget.js" async defer></script>
+<meta charset="utf-8"/><meta content="website" property="og:type"/><meta content="GTXO Consulting" property="og:site_name"/><meta content="Contact · GTXO Consulting" property="og:title"/><meta content="Book a free consultation with Grow10x. We become your extended marketing team focused on revenue growth." property="og:description"/><meta content="https://www.grow10x.online/assets/logo-grow10x.png" property="og:image"/><meta content="500" property="og:image:width"/><meta content="500" property="og:image:height"/><meta content="https://www.grow10x.online/contact" property="og:url"/><meta content="summary" name="twitter:card"/><meta content="https://www.grow10x.online/assets/logo-grow10x.png" name="twitter:image"/><meta content="Contact · GTXO Consulting" name="twitter:title"/><meta content="Book a free consultation with Grow10x. We become your extended marketing team focused on revenue growth." name="twitter:description"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Contact · GTXO Consulting</title>
+<link href="assets/site.css" rel="stylesheet"/>
+<!-- Calendly embed -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
+<script async="" defer="" src="https://assets.calendly.com/assets/external/widget.js"></script>
 </head>
 <body data-page="" data-screen-label="07 Contact">
-  <header id="site-nav"></header>
-  <main>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container inner">
-        <div class="crumbs"><a href="/">Home</a> <span>/</span> <span>Contact</span></div>
-        <h1 class="display">Let's <span class="emph">huddle.</span></h1>
-        <p class="lead">A 30-minute call. We'll look at your funnel, name the three biggest leaks, and tell you which lever to pull first. Yours to keep, even if we don't work together.</p>
-      </div>
-    </section>
-
-    <!-- BOOKING + WHAT TO EXPECT -->
-    <section class="section contact-booking-section">
-      <div class="container">
-        <div class="contact-split">
-
-          <!-- Left: Cal.com embed -->
-          <div class="contact-cal">
-            <p class="eyebrow"><span class="dash"></span>Book a call</p>
-            <h2 class="h2">Pick a time <span class="emph">that works</span></h2>
-            <p class="lead-sm">No forms, no waiting. Pick a slot and we show up prepared.</p>
-            <div class="cal-embed-wrap">
-              <div
-                class="calendly-inline-widget"
-                data-url="https://calendly.com/growth-consultant-abhirup/neurasync-demo?hide_gdpr_banner=1&primary_color=0f5ef7"
-                style="min-width:280px;height:700px;">
-              </div>
-            </div>
-          </div>
-
-          <!-- Right: What to expect -->
-          <div class="contact-expect">
-            <p class="eyebrow"><span class="dash"></span>What to expect</p>
-            <h2 class="h2">30 minutes, <span class="emph">zero fluff</span></h2>
-            <p class="lead-sm">Here's how your free strategy call runs.</p>
-            <ol class="expect-steps">
-              <li class="expect-step">
-                <span class="step-num">01</span>
-                <div class="step-body">
-                  <strong>You brief us (5 min)</strong>
-                  <p>Tell us your current channels, monthly budget, and the number that's keeping you up at night.</p>
-                </div>
-              </li>
-              <li class="expect-step">
-                <span class="step-num">02</span>
-                <div class="step-body">
-                  <strong>We audit live (15 min)</strong>
-                  <p>We walk your funnel, name the three biggest leaks, and benchmark them against your category.</p>
-                </div>
-              </li>
-              <li class="expect-step">
-                <span class="step-num">03</span>
-                <div class="step-body">
-                  <strong>You leave with a diagnosis (10 min)</strong>
-                  <p>One clear lever to pull first — written up and sent to you within 24 hours. No commitment required.</p>
-                </div>
-              </li>
-            </ol>
-            <div class="expect-note">
-              <span class="expect-note-icon">&#10003;</span>
-              <span>No slides. No pitch deck. Just an honest conversation about your growth.</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- FALLBACK FORM -->
-    <section class="section section--muted contact-form-section">
-      <div class="container container-narrow">
-        <div class="section-head center">
-          <p class="eyebrow"><span class="dash"></span>Prefer email?</p>
-          <h2 class="h2">Drop us a <span class="emph">note</span></h2>
-          <p class="lead">Not ready to book yet? Tell us about your situation and we'll reply within one business day.</p>
-        </div>
-
-        <form class="contact-form" id="contact-form" action="https://formspree.io/f/mdabqnkw" method="POST">
-          <input type="hidden" name="_subject" id="cf-subject">
-          <div class="form-row form-row-2">
-            <div class="form-group">
-              <label for="cf-name">Full name <span class="req">*</span></label>
-              <input id="cf-name" name="name" type="text" placeholder="Alex Johnson" required>
-            </div>
-            <div class="form-group">
-              <label for="cf-email">Work email <span class="req">*</span></label>
-              <input id="cf-email" name="email" type="email" placeholder="alex@company.com" required>
-            </div>
-          </div>
-          <div class="form-row form-row-2">
-            <div class="form-group">
-              <label for="cf-company">Company</label>
-              <input id="cf-company" name="company" type="text" placeholder="Acme Inc.">
-            </div>
-            <div class="form-group">
-              <label for="cf-stage">Company stage</label>
-              <select id="cf-stage" name="stage">
-                <option value="" disabled selected>Select stage…</option>
-                <option value="seed">Seed / Pre-revenue</option>
-                <option value="series-a">Series A (1–10M ARR)</option>
-                <option value="series-b">Series B+ (10M+ ARR)</option>
-                <option value="bootstrapped">Bootstrapped &amp; profitable</option>
-                <option value="enterprise">Enterprise</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="cf-service">Service you're looking for?</label>
-            <select id="cf-service" name="service">
-              <option value="" disabled selected>Select a service…</option>
-              <option value="gtm-strategy">GTM Strategy</option>
-              <option value="demand-gen">Demand Generation</option>
-              <option value="paid-marketing">Paid Marketing</option>
-              <option value="ai-led-seo">AI-Led SEO</option>
-              <option value="content-strategy">Content Strategy</option>
-              <option value="ai-solutions">AI Solutions for Marketing</option>
-              <option value="not-sure">Not sure yet</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="cf-message">What's the challenge? <span class="req">*</span></label>
-            <textarea id="cf-message" name="message" rows="5" placeholder="Give us the short version: current channels, biggest growth bottleneck, and what success looks like for you in 12 months." required></textarea>
-          </div>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAADP9EYMiIo3m-Nio" data-theme="light"></div>
-          <div class="form-footer">
-            <button type="submit" class="btn btn-primary btn-lg" id="cf-submit">Send message &rarr;</button>
-            <span class="form-privacy">We don't share your details. Ever.</span>
-          </div>
-        </form>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-      </div>
-    </section>
-
-    <!-- FAQs -->
-    <section class="section section--dark contact-faq-section">
-      <div class="container container-narrow">
-        <div class="section-head center">
-          <p class="eyebrow" style="color:rgba(255,255,255,.5)"><span class="dash"></span>Before you ask</p>
-          <h2 class="h2" style="color:#fff">Common <span class="emph">questions</span></h2>
-        </div>
-        <div class="faq-list">
-
-          <details class="faq-item">
-            <summary class="faq-q">How much does Grow10x cost?</summary>
-            <div class="faq-a">
-              <p>Engagements typically start at $5,000/month for a focused channel sprint (one primary growth channel, 90-day scope). Full-funnel growth partnerships run $12,000–$25,000/month depending on team size, ad spend managed, and deliverables. We publish a ballpark on the <a href="/solutions">Solutions page</a> — no games.</p>
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary class="faq-q">How long is a typical engagement?</summary>
-            <div class="faq-a">
-              <p>Most clients start with a 90-day sprint to validate the channel and build the playbook, then roll into a monthly retainer. We don't lock you into 12-month contracts. The minimum commitment is 60 days — enough time to see real signal, not just vanity metrics.</p>
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary class="faq-q">What don't you do?</summary>
-            <div class="faq-a">
-              <p>We don't do brand awareness for its own sake, content mills, or social media management that isn't tied to pipeline. We're a growth team, not a marketing agency. If your brief is "more followers" or "viral reach" without a revenue goal attached, we're probably not the right fit.</p>
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary class="faq-q">How quickly can we get started?</summary>
-            <div class="faq-a">
-              <p>After the strategy call, we send a scoped proposal within 48 hours. If it's a fit, onboarding takes about one week — we run a kick-off session, audit your existing funnel, and have the first sprint plan in your hands before day 10.</p>
-            </div>
-          </details>
-
-        </div>
-      </div>
-    </section>
-
-  </main>
-  <footer id="site-foot"></footer>
-  <script src="assets/shell.js"></script>
-  <script>
+<header id="site-nav"></header>
+<main>
+<!-- HERO -->
+<section class="hero">
+<div class="container inner">
+<div class="crumbs"><a href="/">Home</a> <span>/</span> <span>Contact</span></div>
+<h1 class="display">Let's <span class="emph">huddle.</span></h1>
+<p class="lead">A 30-minute call. We'll look at your funnel, name the three biggest leaks, and tell you which lever to pull first. Yours to keep, even if we don't work together.</p>
+</div>
+</section>
+<!-- BOOKING + WHAT TO EXPECT -->
+<section class="section contact-booking-section">
+<div class="container">
+<div class="contact-split">
+<!-- Left: Cal.com embed -->
+<div class="contact-cal">
+<p class="eyebrow"><span class="dash"></span>Book a call</p>
+<h2 class="h2">Pick a time <span class="emph">that works</span></h2>
+<p class="lead-sm">No forms, no waiting. Pick a slot and we show up prepared.</p>
+<div class="cal-embed-wrap">
+<div class="calendly-inline-widget" data-url="https://calendly.com/growth-consultant-abhirup/neurasync-demo?hide_gdpr_banner=1&amp;primary_color=0f5ef7" style="min-width:280px;height:700px;">
+</div>
+</div>
+</div>
+<!-- Right: What to expect -->
+<div class="contact-expect">
+<p class="eyebrow"><span class="dash"></span>What to expect</p>
+<h2 class="h2">30 minutes, <span class="emph">zero fluff</span></h2>
+<p class="lead-sm">Here's how your free strategy call runs.</p>
+<ol class="expect-steps">
+<li class="expect-step">
+<span class="step-num">01</span>
+<div class="step-body">
+<strong>You brief us (5 min)</strong>
+<p>Tell us your current channels, monthly budget, and the number that's keeping you up at night.</p>
+</div>
+</li>
+<li class="expect-step">
+<span class="step-num">02</span>
+<div class="step-body">
+<strong>We audit live (15 min)</strong>
+<p>We walk your funnel, name the three biggest leaks, and benchmark them against your category.</p>
+</div>
+</li>
+<li class="expect-step">
+<span class="step-num">03</span>
+<div class="step-body">
+<strong>You leave with a diagnosis (10 min)</strong>
+<p>One clear lever to pull first — written up and sent to you within 24 hours. No commitment required.</p>
+</div>
+</li>
+</ol>
+<div class="expect-note">
+<span class="expect-note-icon">✓</span>
+<span>No slides. No pitch deck. Just an honest conversation about your growth.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FALLBACK FORM -->
+<section class="section section--muted contact-form-section">
+<div class="container container-narrow">
+<div class="section-head center">
+<p class="eyebrow"><span class="dash"></span>Prefer email?</p>
+<h2 class="h2">Drop us a <span class="emph">note</span></h2>
+<p class="lead">Not ready to book yet? Tell us about your situation and we'll reply within one business day.</p>
+</div>
+<form action="https://formspree.io/f/mdabqnkw" class="contact-form" id="contact-form" method="POST">
+<input id="cf-subject" name="_subject" type="hidden"/>
+<div class="form-row form-row-2">
+<div class="form-group">
+<label for="cf-name">Full name <span class="req">*</span></label>
+<input id="cf-name" name="name" placeholder="Alex Johnson" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="cf-email">Work email <span class="req">*</span></label>
+<input id="cf-email" name="email" placeholder="alex@company.com" required="" type="email"/>
+</div>
+</div>
+<div class="form-row form-row-2">
+<div class="form-group">
+<label for="cf-company">Company</label>
+<input id="cf-company" name="company" placeholder="Acme Inc." type="text"/>
+</div>
+<div class="form-group">
+<label for="cf-stage">Company stage</label>
+<select id="cf-stage" name="stage">
+<option disabled="" selected="" value="">Select stage…</option>
+<option value="seed">Seed / Pre-revenue</option>
+<option value="series-a">Series A (1–10M ARR)</option>
+<option value="series-b">Series B+ (10M+ ARR)</option>
+<option value="bootstrapped">Bootstrapped &amp; profitable</option>
+<option value="enterprise">Enterprise</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label for="cf-service">Service you're looking for?</label>
+<select id="cf-service" name="service">
+<option disabled="" selected="" value="">Select a service…</option>
+<option value="gtm-strategy">GTM Strategy</option>
+<option value="demand-gen">Demand Generation</option>
+<option value="paid-marketing">Paid Marketing</option>
+<option value="ai-led-seo">AI-Led SEO</option>
+<option value="content-strategy">Content Strategy</option>
+<option value="ai-solutions">AI Solutions for Marketing</option>
+<option value="not-sure">Not sure yet</option>
+</select>
+</div>
+<div class="form-group">
+<label for="cf-message">What's the challenge? <span class="req">*</span></label>
+<textarea id="cf-message" name="message" placeholder="Give us the short version: current channels, biggest growth bottleneck, and what success looks like for you in 12 months." required="" rows="5"></textarea>
+</div>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAADP9EYMiIo3m-Nio" data-theme="light"></div>
+<div class="form-footer">
+<button class="btn btn-primary btn-lg" id="cf-submit" type="submit">Send message →</button>
+<span class="form-privacy">We don't share your details. Ever.</span>
+</div>
+</form>
+<script async="" defer="" src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+</div>
+</section>
+<!-- FAQs -->
+<section class="section section--dark contact-faq-section">
+<div class="container container-narrow">
+<div class="section-head center">
+<p class="eyebrow" style="color:rgba(255,255,255,.5)"><span class="dash"></span>Before you ask</p>
+<h2 class="h2" style="color:#fff">Common <span class="emph">questions</span></h2>
+</div>
+<div class="faq-list">
+<details class="faq-item">
+<summary class="faq-q">How much does Grow10x cost?</summary>
+<div class="faq-a">
+<p>Engagements typically start at $5,000/month for a focused channel sprint (one primary growth channel, 90-day scope). Full-funnel growth partnerships run $12,000–$25,000/month depending on team size, ad spend managed, and deliverables. We publish a ballpark on the <a href="/solutions">Solutions page</a> — no games.</p>
+</div>
+</details>
+<details class="faq-item">
+<summary class="faq-q">How long is a typical engagement?</summary>
+<div class="faq-a">
+<p>Most clients start with a 90-day sprint to validate the channel and build the playbook, then roll into a monthly retainer. We don't lock you into 12-month contracts. The minimum commitment is 60 days — enough time to see real signal, not just vanity metrics.</p>
+</div>
+</details>
+<details class="faq-item">
+<summary class="faq-q">What don't you do?</summary>
+<div class="faq-a">
+<p>We don't do brand awareness for its own sake, content mills, or social media management that isn't tied to pipeline. We're a growth team, not a marketing agency. If your brief is "more followers" or "viral reach" without a revenue goal attached, we're probably not the right fit.</p>
+</div>
+</details>
+<details class="faq-item">
+<summary class="faq-q">How quickly can we get started?</summary>
+<div class="faq-a">
+<p>After the strategy call, we send a scoped proposal within 48 hours. If it's a fit, onboarding takes about one week — we run a kick-off session, audit your existing funnel, and have the first sprint plan in your hands before day 10.</p>
+</div>
+</details>
+</div>
+</div>
+</section>
+</main>
+<footer id="site-foot"></footer>
+<script src="assets/shell.js"></script>
+<script>
     const form = document.getElementById('contact-form');
     const btn  = document.getElementById('cf-submit');
     form.addEventListener('submit', async function(e) {

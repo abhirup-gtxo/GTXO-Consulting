@@ -428,8 +428,20 @@ ARTICLE_TEMPLATE = """\
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{meta_title} · Grow10x</title>
+  <title>{meta_title} · GTXO Consulting</title>
   <meta name="description" content="{meta_description}">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="GTXO Consulting">
+  <meta property="og:title" content="{meta_title} · GTXO Consulting">
+  <meta property="og:description" content="{meta_description}">
+  <meta property="og:image" content="https://www.grow10x.online/assets/logo-grow10x.png">
+  <meta property="og:image:width" content="500">
+  <meta property="og:image:height" content="500">
+  <meta property="og:url" content="https://www.grow10x.online/resources/{ct}/{slug}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://www.grow10x.online/assets/logo-grow10x.png">
+  <meta name="twitter:title" content="{meta_title} · GTXO Consulting">
+  <meta name="twitter:description" content="{meta_description}">
   <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body data-page="resources" data-depth="2">
@@ -512,6 +524,7 @@ def _generate_article_pages(ct):
             ct_label=meta['label'],
             kind=item.get('kind', ''),
             tag_pills=tag_pills,
+            slug=slug,
         )
         repo_path = f'resources/{ct}/{slug}.html'
         _write_file(repo_path, html, f'CMS: publish {ct} article')
