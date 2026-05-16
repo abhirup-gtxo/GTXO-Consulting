@@ -250,6 +250,7 @@ def page_editor(page_key):
 def rebuild_all():
     for ct in CMS_TYPES:
         _rebuild_resource_page(ct)
+    _rebuild_resource_hub()
     flash('All pages rebuilt successfully', 'success')
     return redirect(url_for('dashboard'))
 
@@ -295,6 +296,7 @@ def cms_new(ct):
         items.append(item)
         save_cms(ct, items)
         _rebuild_resource_page(ct)
+        _rebuild_resource_hub()
         flash('Created successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
@@ -327,6 +329,7 @@ def cms_edit(ct, item_id):
         item['updated_at']       = datetime.utcnow().isoformat()
         save_cms(ct, items)
         _rebuild_resource_page(ct)
+        _rebuild_resource_hub()
         flash('Saved successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
@@ -342,6 +345,7 @@ def cms_delete(ct, item_id):
     items = [i for i in load_cms(ct) if i['id'] != item_id]
     save_cms(ct, items)
     _rebuild_resource_page(ct)
+    _rebuild_resource_hub()
     flash('Deleted', 'success')
     return redirect(url_for('cms_list', ct=ct))
 
@@ -355,6 +359,7 @@ def cms_toggle(ct, item_id):
             i['updated_at'] = datetime.utcnow().isoformat()
     save_cms(ct, items)
     _rebuild_resource_page(ct)
+    _rebuild_resource_hub()
     return redirect(url_for('cms_list', ct=ct))
 
 # ── Public JSON API ───────────────────────────────────────────────────────────
@@ -562,6 +567,54 @@ def _rebuild_resource_page(ct):
             grid.append(child)
 
     _write_file(repo_path, str(soup), f'CMS: rebuild {ct} listing')
+
+
+def _rebuild_resource_hub():
+    html = _read_file('resources/index.html')
+    if not html:
+        return
+
+    all_items = []
+    for ct, meta in CMS_TYPES.items():
+        for item in load_cms(ct):
+            if item.get('published'):
+                item = dict(item, _ct=ct, _label=meta['cover_label'])
+                all_items.append(item)
+
+    all_items.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+
+    if all_items:
+        cards_html = ''
+        for item in all_items:
+            ct = item['_ct']
+            tag_parts = item.get('tags', [])
+            tags_html = '<span class="dot"></span>'.join(f'<span>{t}</span>' for t in tag_parts)
+            item_url = f'/resources/{ct}/{item.get("slug") or item["id"]}'
+            cards_html += f'''
+    <a class="res-card" href="{item_url}" data-cms-id="{item["id"]}">
+      <div class="cover {item.get("cover_grad","grad-a")}">
+        <span class="cover-label">{item["_label"]}</span>
+        <span class="cover-glyph">{item.get("cover_glyph","")}</span>
+      </div>
+      <div class="body">
+        <span class="kind">{item.get("kind","")}</span>
+        <h3 class="ttl">{item["title"]}</h3>
+        <p class="desc">{item.get("description","")}</p>
+        <div class="meta">{tags_html}</div>
+      </div>
+    </a>'''
+    else:
+        cards_html = '<p class="lead" style="color:var(--fg-secondary);padding:40px 0;">No published entries yet.</p>'
+
+    soup = BeautifulSoup(html, 'lxml')
+    grid = soup.select_one('.res-grid')
+    if grid:
+        grid.clear()
+        frag = BeautifulSoup(cards_html, 'html.parser')
+        for child in list(frag.children):
+            grid.append(child)
+
+    _write_file('resources/index.html', str(soup), 'CMS: rebuild resource hub')
 
 # ── Testimonials data helpers ─────────────────────────────────────────────────
 
