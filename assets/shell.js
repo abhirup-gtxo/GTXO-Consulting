@@ -143,9 +143,8 @@
               </ul>
             </div>
           </div>
-          <div class="copy">
+          <div class="copy" style="justify-content:center;text-align:center;">
             <span>© GTXO Consulting 2026, Your Embedded Growth Partner</span>
-            <span>grow10x.online</span>
           </div>
         </div>
       </footer>
