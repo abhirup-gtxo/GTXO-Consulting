@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="copy">
-            <span>© Grow10x · 2026 · An embedded growth partner</span>
+            <span>© GTXO Consulting 2026, Your Embedded Growth Partner</span>
             <span>grow10x.online</span>
           </div>
         </div>
