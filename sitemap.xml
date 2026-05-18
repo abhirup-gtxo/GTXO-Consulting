@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.grow10x.online/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Main Navigation Pages -->
+  <url>
+    <loc>https://www.grow10x.online/solutions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/industries</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/clients</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Solutions Subpages -->
+  <url>
+    <loc>https://www.grow10x.online/solutions/ai-led-seo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/solutions/paid-marketing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/solutions/content-strategy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/solutions/demand-gen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/solutions/gtm-strategy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/solutions/ai-solutions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Industries Subpages -->
+  <url>
+    <loc>https://www.grow10x.online/industries/b2b-tech</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/industries/b2b-consulting</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/industries/d2c-brands</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/industries/b2c-brands</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Resource Category Pages -->
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/case-studies</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/guides</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs/why-your-roas-is-lying-to-you-and-what-to-track-instead</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs/meta-cpms-are-up-60-heres-what-smart-d2c-brands-are-doing-about-it</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs/your-demand-gen-funnel-is-broken-and-more-content-wont-fix-it</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs/ai-seo-advice-is-just-repackaged-seo</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/blogs/aeo-vs-geo-vs-traditional-seo-what-actually-matters-in-2026</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Guides -->
+  <url>
+    <loc>https://www.grow10x.online/resources/guides/the-gtm-mistake-every-founder-makes-building-for-everyone</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/guides/gtm-guide-your-gtm-strategy-failed-because-you-skipped-the-boring-parts</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/guides/the-b2b-demand-gen-playbook-nobody-talks-about-bofu-first</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Case Studies -->
+  <url>
+    <loc>https://www.grow10x.online/resources/case-studies/d2c-meta-ads-6x-roas</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/case-studies/how-a-bfsi-saas-company-dominated-ai-search-in-90-days</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.grow10x.online/resources/case-studies/from-traffic-to-pipeline-60-sales-ready-leads-in-60-days</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+</urlset>
