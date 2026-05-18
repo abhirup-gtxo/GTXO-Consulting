@@ -1,8 +1,8 @@
 {
   "banner": {
-    "enabled": true,
-    "text": "Free audit · We'll find 3 revenue leaks in your funnel in 30 minutes",
+    "enabled": false,
+    "text": "Free audit \u00b7 We'll find 3 revenue leaks in your funnel in 30 minutes",
     "link": "/contact",
-    "link_label": "Book now →"
+    "link_label": "Book now \u2192"
   }
 }

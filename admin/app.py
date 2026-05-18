@@ -262,15 +262,15 @@ def _apply_banner(settings):
     shell_path = SITE_ROOT / 'assets' / 'shell.js'
     text = shell_path.read_text(encoding='utf-8')
     b = settings.get('banner', {})
-    if b.get('enabled'):
-        inner = (f'<div class="announce"><span class="dot"></span>'
+    if b.get('enabled') and b.get('text'):
+        inner = (f'`<div class="announce"><span class="dot"></span>'
                  f'<span>{b["text"]}</span>'
-                 f'<a href="{b["link"]}">{b["link_label"]}</a></div>')
+                 f'<a href="{b["link"]}">{b["link_label"]}</a></div>`')
     else:
-        inner = ''
+        inner = '``'
     new_text = re.sub(
         r'/\*BANNER-BEGIN\*/.*?/\*BANNER-END\*/',
-        f'/*BANNER-BEGIN*/\n      {inner}\n      /*BANNER-END*/',
+        f'/*BANNER-BEGIN*/{inner}/*BANNER-END*/',
         text, flags=re.DOTALL
     )
     shell_path.write_text(new_text, encoding='utf-8')
