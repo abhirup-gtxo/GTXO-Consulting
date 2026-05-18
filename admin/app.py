@@ -494,6 +494,8 @@ ARTICLE_TEMPLATE = """\
   <meta name="twitter:image" content="https://www.grow10x.online/assets/logo-grow10x.png">
   <meta name="twitter:title" content="{meta_title} · GTXO Consulting">
   <meta name="twitter:description" content="{meta_description}">
+  <link rel="icon" type="image/png" href="../../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../../assets/favicon.png">
   <link rel="stylesheet" href="../../assets/site.css">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW3KF2KDR2"></script>

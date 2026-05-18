@@ -77,7 +77,7 @@
       <nav class="nav" aria-label="Primary">
         <div class="container nav-inner">
           <a class="brand" href="/">
-            <img src="${LOGO}" alt="Grow10x" />
+            <img src="${LOGO}" alt="Grow10x" style="height:34px;width:auto;" />
           </a>
           <div class="nav-links">${links}</div>
           <div class="nav-actions">
@@ -99,7 +99,7 @@
           <div class="foot-grid">
             <div>
               <div class="foot-brand">
-                <img src="${LOGO}" alt="Grow10x" />
+                <img src="${withBase("assets/logo-grow10x-white.png")}" alt="GTXO Consulting" style="height:36px;width:auto;" />
               </div>
               <p class="tag">Your extended marketing team focused on one objective: revenue growth.</p>
             </div>
@@ -205,9 +205,13 @@
     if (document.querySelector('link[rel="icon"]')) return;
     const link = document.createElement("link");
     link.rel = "icon";
-    link.type = "image/svg+xml";
-    link.href = withBase("assets/favicon.svg");
+    link.type = "image/png";
+    link.href = withBase("assets/favicon.png");
     document.head.appendChild(link);
+    const apple = document.createElement("link");
+    apple.rel = "apple-touch-icon";
+    apple.href = withBase("assets/favicon.png");
+    document.head.appendChild(apple);
   }
 
   function boot() {
