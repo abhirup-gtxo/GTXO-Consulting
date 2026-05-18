@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Site Settings{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="breadcrumb"><a href="/admin/">Dashboard</a> / Settings</div>
+    <h1 class="page-title">Site Settings</h1>
+  </div>
+</div>
+
+<form method="post">
+  <div class="editor-layout">
+    <div class="editor-main">
+      <div class="editor-section">
+        <div class="editor-section-title">Announcement Banner</div>
+
+        <div class="field">
+          <label class="toggle-label">
+            <input type="checkbox" name="banner_enabled" {{ 'checked' if settings.banner.enabled else '' }}>
+            <span class="toggle-text">Show banner</span>
+          </label>
+          <p class="field-hint">Displays the announcement bar at the top of every page.</p>
+        </div>
+
+        <div class="field">
+          <label>Banner Text</label>
+          <input type="text" name="banner_text" value="{{ settings.banner.text }}" placeholder="Free audit · We'll find 3 revenue leaks in your funnel in 30 minutes">
+        </div>
+
+        <div class="field">
+          <label>Link URL</label>
+          <input type="text" name="banner_link" value="{{ settings.banner.link }}" placeholder="/contact">
+        </div>
+
+        <div class="field">
+          <label>Link Label</label>
+          <input type="text" name="banner_link_label" value="{{ settings.banner.link_label }}" placeholder="Book now →">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn-primary">Save Settings</button>
+  </div>
+</form>
+{% endblock %}

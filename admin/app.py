@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 import json
 from dotenv import load_dotenv
 load_dotenv()
@@ -244,6 +245,52 @@ def page_editor(page_key):
                            values=values)
 
 # ── Rebuild all ───────────────────────────────────────────────────────────────
+
+SITE_SETTINGS_PATH = DATA_DIR / 'site-settings.json'
+
+def load_site_settings():
+    if not SITE_SETTINGS_PATH.exists():
+        return {'banner': {'enabled': True, 'text': '', 'link': '/contact', 'link_label': 'Book now →'}}
+    with open(SITE_SETTINGS_PATH) as f:
+        return json.load(f)
+
+def save_site_settings(data):
+    with open(SITE_SETTINGS_PATH, 'w') as f:
+        json.dump(data, f, indent=2)
+
+def _apply_banner(settings):
+    shell_path = SITE_ROOT / 'assets' / 'shell.js'
+    text = shell_path.read_text(encoding='utf-8')
+    b = settings.get('banner', {})
+    if b.get('enabled'):
+        inner = (f'<div class="announce"><span class="dot"></span>'
+                 f'<span>{b["text"]}</span>'
+                 f'<a href="{b["link"]}">{b["link_label"]}</a></div>')
+    else:
+        inner = ''
+    new_text = re.sub(
+        r'/\*BANNER-BEGIN\*/.*?/\*BANNER-END\*/',
+        f'/*BANNER-BEGIN*/\n      {inner}\n      /*BANNER-END*/',
+        text, flags=re.DOTALL
+    )
+    shell_path.write_text(new_text, encoding='utf-8')
+
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@login_required
+def site_settings():
+    settings = load_site_settings()
+    if request.method == 'POST':
+        settings['banner'] = {
+            'enabled':    request.form.get('banner_enabled') == 'on',
+            'text':       request.form.get('banner_text', '').strip(),
+            'link':       request.form.get('banner_link', '/contact').strip(),
+            'link_label': request.form.get('banner_link_label', 'Book now →').strip(),
+        }
+        save_site_settings(settings)
+        _apply_banner(settings)
+        flash('Settings saved', 'success')
+        return redirect(url_for('site_settings'))
+    return render_template('site_settings.html', settings=settings)
 
 @app.route('/admin/rebuild-all', methods=['POST'])
 @login_required

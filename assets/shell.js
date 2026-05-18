@@ -72,11 +72,9 @@
     }).join("");
 
     host.innerHTML = `
-      <div class="announce">
-        <span class="dot"></span>
-        <span>Free audit · We'll find 3 revenue leaks in your funnel in 30 minutes</span>
-        <a href="/contact">Book now →</a>
-      </div>
+      /*BANNER-BEGIN*/
+      <div class="announce"><span class="dot"></span><span>Free audit · We'll find 3 revenue leaks in your funnel in 30 minutes</span><a href="/contact">Book now →</a></div>
+      /*BANNER-END*/
       <nav class="nav" aria-label="Primary">
         <div class="container nav-inner">
           <a class="brand" href="/">
