@@ -448,6 +448,14 @@ ARTICLE_TEMPLATE = """\
   <meta name="twitter:title" content="{meta_title} · GTXO Consulting">
   <meta name="twitter:description" content="{meta_description}">
   <link rel="stylesheet" href="../../assets/site.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW3KF2KDR2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-YW3KF2KDR2');
+  </script>
 </head>
 <body data-page="resources" data-depth="2">
   <header id="site-nav"></header>
