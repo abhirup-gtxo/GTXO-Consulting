@@ -21,9 +21,7 @@ serve.py
 .DS_Store
 Thumbs.db
 
-# Uploads (user media — keep folder, ignore files)
-uploads/*
-!uploads/.gitkeep
+# Uploads — committed to git so Vercel can serve them
 
 # Scraps / napkin files
 scraps/
