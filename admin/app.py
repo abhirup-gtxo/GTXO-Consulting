@@ -251,6 +251,7 @@ def rebuild_all():
     for ct in CMS_TYPES:
         _rebuild_resource_page(ct)
     _rebuild_resource_hub()
+    _rebuild_homepage_resources()
     flash('All pages rebuilt successfully', 'success')
     return redirect(url_for('dashboard'))
 
@@ -297,6 +298,7 @@ def cms_new(ct):
         save_cms(ct, items)
         _rebuild_resource_page(ct)
         _rebuild_resource_hub()
+        _rebuild_homepage_resources()
         flash('Created successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
@@ -330,6 +332,7 @@ def cms_edit(ct, item_id):
         save_cms(ct, items)
         _rebuild_resource_page(ct)
         _rebuild_resource_hub()
+        _rebuild_homepage_resources()
         flash('Saved successfully', 'success')
         return redirect(url_for('cms_list', ct=ct))
     return render_template('cms_edit.html', ct=ct, meta=CMS_TYPES[ct],
@@ -346,6 +349,7 @@ def cms_delete(ct, item_id):
     save_cms(ct, items)
     _rebuild_resource_page(ct)
     _rebuild_resource_hub()
+    _rebuild_homepage_resources()
     flash('Deleted', 'success')
     return redirect(url_for('cms_list', ct=ct))
 
@@ -360,6 +364,7 @@ def cms_toggle(ct, item_id):
     save_cms(ct, items)
     _rebuild_resource_page(ct)
     _rebuild_resource_hub()
+    _rebuild_homepage_resources()
     return redirect(url_for('cms_list', ct=ct))
 
 # ── Public JSON API ───────────────────────────────────────────────────────────
@@ -628,6 +633,50 @@ def _rebuild_resource_hub():
             grid.append(child)
 
     _write_file('resources/index.html', str(soup), 'CMS: rebuild resource hub')
+
+
+def _rebuild_homepage_resources():
+    html = _read_file('index.html')
+    if not html:
+        return
+
+    all_items = []
+    for ct, meta in CMS_TYPES.items():
+        for item in load_cms(ct):
+            if item.get('published'):
+                all_items.append(dict(item, _ct=ct, _label=meta['cover_label']))
+
+    all_items.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    featured = all_items[:3]
+
+    cards_html = ''
+    for item in featured:
+        ct = item['_ct']
+        tag_parts = item.get('tags', [])
+        tags_html = '<span class="dot"></span>'.join(f'<span>{t}</span>' for t in tag_parts)
+        item_url = f'/resources/{ct}/{item.get("slug") or item["id"]}'
+        cards_html += f'''<a class="res-card" data-cms-id="{item["id"]}" href="{item_url}">
+<div class="cover {item.get("cover_grad","grad-a")}">
+<span class="cover-label">{item["_label"]}</span>
+<span class="cover-glyph">{item.get("cover_glyph","")}</span>
+</div>
+<div class="body">
+<span class="kind">{item.get("kind","")}</span>
+<h3 class="ttl">{item["title"]}</h3>
+<p class="desc">{item.get("description","")}</p>
+<div class="meta">{tags_html}</div>
+</div>
+</a>'''
+
+    soup = BeautifulSoup(html, 'lxml')
+    grid = soup.select_one('.res-grid')
+    if grid and cards_html:
+        grid.clear()
+        frag = BeautifulSoup(cards_html, 'html.parser')
+        for child in list(frag.children):
+            grid.append(child)
+
+    _write_file('index.html', str(soup), 'CMS: rebuild homepage resources')
 
 # ── Testimonials data helpers ─────────────────────────────────────────────────
 
