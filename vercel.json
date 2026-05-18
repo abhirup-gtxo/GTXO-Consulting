@@ -1,4 +1,18 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "grow10x.online" }],
+      "destination": "https://gtxoconsulting.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.grow10x.online" }],
+      "destination": "https://gtxoconsulting.com/$1",
+      "permanent": true
+    }
+  ]
 }
